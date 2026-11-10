@@ -42,8 +42,12 @@ jobs:
 
       - name: Upload over FTPS
         run: |
-          # Files that make up the site. Add new ones here.
-          files="index.html"
+          # Files that make up the site. Add new ones here. The texts file is
+          # optional until it exists in the repository.
+          files="css/app.css js/engine.js js/texts-fallback.js js/app.js"
+          [ -f texts/profile-texts.fr.js ] && files="$files texts/profile-texts.fr.js"
+          # The page goes last, so it never points at files not yet uploaded.
+          files="$files index.html"
 
           # Folder on the server, relative to the FTP login folder, without
           # leading or trailing slashes.
@@ -57,17 +61,21 @@ jobs:
           printf 'user = "%s:%s"\n' "$(esc "$FTP_USER")" "$(esc "$FTP_PASSWORD")" > "$RUNNER_TEMP/curl-auth"
 
           for f in $files; do
+            # After the upload curl sits in the file's folder, so the rename
+            # commands use the bare file name.
+            name=$(basename "$f")
             echo "Uploading $f to /$dir/"
             # Upload to a temporary name, then swap it in, so visitors never
-            # get a half-written page. "-" runs a command after the upload,
+            # get a half-written page. --ftp-create-dirs makes css/ and js/
+            # on the first deploy. "-" runs a command after the upload,
             # "*" lets it fail (the old file may not exist).
-            curl --fail --show-error --silent --ssl-reqd \
+            curl --fail --show-error --silent --ssl-reqd --ftp-create-dirs \
               --config "$RUNNER_TEMP/curl-auth" \
               --retry 3 --connect-timeout 20 \
               -T "$f" "$base/$f.uploading" \
-              -Q "-*DELE $f" \
-              -Q "-RNFR $f.uploading" \
-              -Q "-RNTO $f"
+              -Q "-*DELE $name" \
+              -Q "-RNFR $name.uploading" \
+              -Q "-RNTO $name"
           done
 
       - name: Check the live site answers
