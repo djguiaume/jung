@@ -1653,7 +1653,7 @@ html[data-theme="dark"] .energy-yellow {
   .notes-box {
     break-inside: avoid;
     margin-top: 16px;
-    min-height: 32mm;
+    min-height: 18mm;
     padding: 6px 10px;
     border: 1px dashed rgba(0, 0, 0, 0.35);
     border-radius: 6px;
