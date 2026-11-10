@@ -1433,6 +1433,73 @@
     "Ce rapport est une base de réflexion, pas un verdict. Il ne mesure ni la compétence, ni l’intelligence, ni la performance, et il ne doit jamais servir à recruter, évaluer ou classer des personnes. Il appartient à la personne qui a répondu : à elle de choisir ce qu’elle en retient et ce qu’elle souhaite partager."
   ];
 
+  // Deuxièmes paragraphes « Relations » et « Décisions » par type.
+  var MORE = {
+    reformateur: [
+      "Au sein d’une équipe, {p} apprécie les personnes qui font ce qu’elles annoncent et respectent les règles convenues. L’impatience peut poindre face au désordre ou aux engagements non tenus. Les moments de convivialité comptent moins pour {p} que la qualité du travail partagé, et le calme est souvent préféré à l’agitation des grands groupes. Cette réserve n’est pas de l’indifférence : l’attention aux autres passe surtout par la fiabilité et l’aide concrète.",
+      "{p} aime s’appuyer sur l’expérience : ce qui a fonctionné hier sert de repère pour juger ce qui fonctionnera demain. Les idées comptent davantage que les personnes qui les portent, et une proposition est évaluée sur sa solidité plutôt que sur la conviction de son auteur. Les questions de {p} peuvent être nombreuses et précises ; elles visent à éprouver une idée, pas à mettre quelqu’un en difficulté, même si elles sont parfois reçues ainsi."
+    ],
+    directeur: [
+      "{p} aime être au cœur de l’action et prend volontiers la parole pour orienter un échange. Les critiques ne découragent pas ; elles sont plutôt vues comme un obstacle à franchir. Prendre le temps de demander comment vont les personnes, et pas seulement où en est le travail, renforce nettement la confiance que l’entourage accorde à {p}.",
+      "Face à un problème, {p} cherche d’abord la cause principale et le levier qui permettra d’agir. Les longues analyses sont utiles si elles débouchent sur un choix ; sinon, elles deviennent un frein. {p} assume volontiers les décisions difficiles et accepte d’en porter la responsabilité, y compris lorsqu’elles sont impopulaires."
+    ],
+    motivateur: [
+      "{p} aime les échanges vivants, les débats animés et les personnes qui s’engagent. La reconnaissance compte, de même que la possibilité de peser sur les décisions. Les relations restent toutefois souvent orientées vers l’objectif : lorsqu’un projet se termine, l’attention de {p} se porte vite sur le suivant.",
+      "{p} évalue rapidement le potentiel d’une situation et préfère les choix qui ouvrent des possibilités. Les décisions sont prises avec conviction, et cette assurance rassure souvent l’équipe. S’entourer de personnes capables de vérifier les détails et d’anticiper les risques permet à {p} de garder cette rapidité sans en payer le prix."
+    ],
+    inspirateur: [
+      "{p} aime rencontrer de nouvelles personnes, partager des idées et créer des connexions. Les échanges sont spontanés, souvent drôles, et laissent rarement indifférent. {p} a besoin de sentir l’intérêt des autres ; un manque de réaction ou une réponse froide peut être vécu comme un désaveu.",
+      "Les idées de {p} naissent souvent en parlant : réfléchir à voix haute avec d’autres aide à clarifier ce qui compte. Les options nouvelles attirent davantage que les solutions éprouvées. Une étape de vérification, avec une personne plus méthodique, permet de transformer cette intuition en décisions solides."
+    ],
+    conseiller: [
+      "{p} remarque vite quand quelqu’un ne va pas bien, et prend naturellement le temps d’en parler. Les collègues se confient volontiers, ce qui fait de {p} un point d’appui important dans une équipe. Cette disponibilité a un coût : les sollicitations s’accumulent, et {p} peut avoir du mal à protéger son propre temps.",
+      "Pour {p}, une décision n’est pas seulement une question de logique : elle doit être cohérente avec les valeurs et respectueuse des personnes. Les arguments purement techniques convainquent moins qu’un exemple concret de ce que le choix changera pour les gens. Fixer une échéance à la consultation aide à concilier écoute et efficacité."
+    ],
+    supporteur: [
+      "On se tourne souvent vers {p} en cas de difficulté, parce que l’écoute est réelle et la discrétion assurée. Les relations sont fidèles et durables. En retour, {p} attend une forme de loyauté et de respect ; un manque de considération touche profondément, même s’il est rarement exprimé.",
+      "{p} aime connaître le cadre, les étapes et les conséquences avant de s’engager. Une décision brusque, prise sans consultation, est mal vécue même si elle est juste sur le fond. En revanche, une fois que {p} a compris et adhéré, l’engagement est solide et durable."
+    ],
+    coordinateur: [
+      "Dans une équipe, {p} veille à ce que chacun ait l’information et les moyens nécessaires. Ce rôle de coordination est souvent discret, et ses effets se remarquent surtout lorsqu’il manque. {p} apprécie les collègues fiables et respectueux des règles communes, et se sent moins à l’aise face aux personnalités envahissantes ou imprévisibles.",
+      "{p} s’appuie volontiers sur les procédures et les expériences passées pour décider. Une méthode éprouvée inspire plus confiance qu’une idée brillante mais non testée. Préparer à l’avance des options pour les situations urgentes permet à {p} de gagner en réactivité sans renoncer à sa rigueur."
+    ],
+    observateur: [
+      "Dans les échanges, {p} écoute beaucoup et prend la parole lorsque c’est utile. Les conversations de fond sont préférées aux discussions légères, et les grands groupes fatiguent plus vite que les échanges en petit comité. Les autres apprécient la justesse et la sincérité de ses remarques, à condition que {p} prenne l’initiative de les partager.",
+      "{p} cherche à comprendre toutes les dimensions d’un problème avant de se prononcer, et réunit volontiers des données supplémentaires. Les décisions sont rarement regrettées, car elles ont été mûrement pesées. Se fixer une date limite et accepter une part d’incertitude aide {p} à passer de l’analyse au choix."
+    ]
+  };
+  Object.keys(MORE).forEach(function (key) {
+    TYPES[key].relations.push(MORE[key][0]);
+    TYPES[key].decisions.push(MORE[key][1]);
+  });
+
+  // Nuances de couleur pour « Relations » et « Décisions ».
+  var COLOUR_RELATIONS = {
+    blue: {
+      high: ["Le bleu marqué renforce le besoin de relations professionnelles claires, fondées sur la compétence et le respect des engagements.", "Le bleu marqué pousse à vérifier les faits et à chercher la cohérence avant tout choix important."],
+      low: ["Le bleu étant peu présent, {p} se soucie moins des formes et des procédures dans les relations, ce qui facilite le contact mais peut déconcerter les personnes plus formelles.", "Le bleu étant peu présent, l’analyse détaillée n’est pas le premier réflexe : prévoir un temps de vérification évite les mauvaises surprises."]
+    },
+    green: {
+      high: ["Le vert marqué donne une réelle attention à l’état des personnes et à la qualité du lien.", "Le vert marqué invite à mesurer l’effet d’un choix sur les personnes avant de trancher."],
+      low: ["Le vert étant peu présent, la dimension affective des relations est moins spontanée : les autres peuvent avoir besoin de signes plus explicites d’attention et de reconnaissance.", "Le vert étant peu présent, les ressentis des autres pèsent moins dans les décisions de {p} ; demander comment un choix sera vécu complète utilement l’analyse."]
+    },
+    yellow: {
+      high: ["Le jaune marqué apporte de la chaleur, de l’humour et une vraie facilité de contact.", "Le jaune marqué rend sensible aux idées nouvelles et aux options inattendues."],
+      low: ["Le jaune étant peu présent, {p} recherche peu les moments informels et préfère des échanges sérieux et ciblés ; un peu de légèreté aiderait parfois à créer du lien.", "Le jaune étant peu présent, les solutions éprouvées sont préférées aux pistes originales, au risque de passer à côté d’une idée neuve."]
+    },
+    red: {
+      high: ["Le rouge marqué rend le ton direct et l’engagement visible : {p} n’hésite pas à dire ce qui doit l’être.", "Le rouge marqué donne de l’assurance pour trancher et assumer les conséquences."],
+      low: ["Le rouge étant peu présent, {p} évite volontiers la confrontation directe et préfère convaincre en douceur.", "Le rouge étant peu présent, trancher vite sous la pression demande un effort ; se fixer des échéances aide à conclure."]
+    }
+  };
+
+  function colourNuance(scores, index) {
+    var parts = [];
+    strongColours(scores).forEach(function (c) { parts.push(COLOUR_RELATIONS[c].high[index]); });
+    weakColours(scores).forEach(function (c) { parts.push(COLOUR_RELATIONS[c].low[index]); });
+    return parts.join(" ");
+  }
+
   // Introductions des trois parties de la synthèse.
   INTROS.style =
     "Cette partie décrit la manière habituelle dont {p} aborde le travail : ce qui compte, ce qui stimule, ce qui pèse. Elle s’appuie sur le profil public, nuancé par l’intensité de chacune des quatre couleurs.";
@@ -1677,8 +1744,8 @@
       },
       overview: {
         style: styleParagraphs,
-        relations: type.relations.slice(),
-        decisions: type.decisions.slice()
+        relations: type.relations.concat([colourNuance(pub.scores, 0)]).filter(Boolean),
+        decisions: type.decisions.concat([colourNuance(pub.scores, 1)]).filter(Boolean)
       },
       underPressure: pressureParagraphs(pub, priv),
       blindSpots: blindSpotParagraphs(pub),
