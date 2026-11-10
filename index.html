@@ -1,0 +1,3779 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boussole des Énergies Jungiennes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5f1e8;
+      --bg-strong: #ebe2d1;
+      --panel: rgba(255, 251, 244, 0.92);
+      --panel-strong: #fffaf1;
+      --line: rgba(67, 50, 19, 0.12);
+      --text: #1f1a14;
+      --muted: #675949;
+      --shadow: 0 18px 48px rgba(71, 48, 16, 0.12);
+      --blue: #2f69c9;
+      --green: #4c8a5a;
+      --yellow: #dca42c;
+      --red: #c34a2c;
+      --blue-soft: rgba(47, 105, 201, 0.12);
+      --green-soft: rgba(76, 138, 90, 0.12);
+      --yellow-soft: rgba(220, 164, 44, 0.16);
+      --red-soft: rgba(195, 74, 44, 0.13);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+      --content-width: 1180px;
+      --transition: 160ms ease;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(47, 105, 201, 0.12), transparent 28%),
+        radial-gradient(circle at top right, rgba(220, 164, 44, 0.14), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(76, 138, 90, 0.12), transparent 28%),
+        linear-gradient(180deg, #f8f3ea 0%, #f3ede1 48%, #efe5d4 100%);
+      font-family: "Manrope", sans-serif;
+    }
+
+    body {
+      padding: 24px;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    img,
+    svg {
+      display: block;
+      max-width: 100%;
+    }
+
+    .app-shell {
+      max-width: var(--content-width);
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #866b49;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .intro-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(360px, 0.9fr);
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .hero-panel {
+      padding: 38px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-panel::after {
+      content: "";
+      position: absolute;
+      inset: auto -18% -28% auto;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(220, 164, 44, 0.16), rgba(47, 105, 201, 0.16));
+      filter: blur(12px);
+      pointer-events: none;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      font-family: "Fraunces", serif;
+      font-weight: 700;
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-panel h1 {
+      font-size: clamp(2.3rem, 3.8vw, 4.3rem);
+      max-width: 12ch;
+    }
+
+    .hero-tagline {
+      margin: 16px 0 14px;
+      max-width: 40rem;
+      font-size: 1.08rem;
+      line-height: 1.75;
+      color: var(--muted);
+    }
+
+    .hero-copy {
+      margin: 0;
+      max-width: 44rem;
+      line-height: 1.75;
+      color: var(--text);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .hero-stat {
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.66);
+      border: 1px solid rgba(67, 50, 19, 0.08);
+    }
+
+    .hero-stat strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 1.3rem;
+    }
+
+    .hero-stat span {
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .energy-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .energy-strip div {
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-align: center;
+      color: #fff;
+    }
+
+    .energy-blue { background: var(--blue); }
+    .energy-green { background: var(--green); }
+    .energy-yellow { background: var(--yellow); color: #3b2d0d; }
+    .energy-red { background: var(--red); }
+
+    .intro-form {
+      padding: 34px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .comparison-shell {
+      margin-top: 24px;
+      padding: 30px;
+      display: grid;
+      gap: 22px;
+    }
+
+    .comparison-header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: end;
+    }
+
+    .comparison-header h2 {
+      font-size: 1.95rem;
+      margin-bottom: 8px;
+    }
+
+    .comparison-header p,
+    .comparison-note {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .upload-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .file-picker {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .file-picker input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .file-picker span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 18px;
+      border-radius: 999px;
+      background: #fff;
+      color: var(--text);
+      font-weight: 800;
+      border: 1px solid rgba(67, 50, 19, 0.12);
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    }
+
+    .file-picker:hover span {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 20px rgba(67, 50, 19, 0.08);
+      border-color: rgba(67, 50, 19, 0.18);
+    }
+
+    .comparison-content {
+      display: grid;
+      gap: 20px;
+    }
+
+    .comparison-empty {
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.64);
+      border: 1px dashed rgba(67, 50, 19, 0.16);
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .upload-error-list {
+      margin: 0;
+      padding: 16px 18px 16px 36px;
+      border-radius: var(--radius-lg);
+      background: rgba(195, 74, 44, 0.08);
+      border: 1px solid rgba(195, 74, 44, 0.16);
+      color: #8d3019;
+      line-height: 1.7;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .summary-card {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(67, 50, 19, 0.08);
+    }
+
+    .summary-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-family: "Fraunces", serif;
+      font-size: clamp(1.05rem, 2vw, 1.45rem);
+      line-height: 1.2;
+    }
+
+    .summary-card span {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .group-wheel-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .group-wheel-card {
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(67, 50, 19, 0.08);
+    }
+
+    .group-wheel-card h3 {
+      font-size: 1.35rem;
+      margin-bottom: 10px;
+    }
+
+    .group-wheel-card p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.72;
+    }
+
+    .wheel-diagram {
+      display: grid;
+      gap: 16px;
+      justify-items: center;
+    }
+
+    .wheel-legend-note {
+      color: var(--muted);
+      line-height: 1.6;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+
+    .marker-number {
+      font-size: 9px;
+      font-weight: 800;
+      text-anchor: middle;
+      dominant-baseline: middle;
+      pointer-events: none;
+    }
+
+    .imported-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .imported-card {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(67, 50, 19, 0.08);
+    }
+
+    .imported-card-header {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .imported-card-header h3 {
+      font-size: 1.08rem;
+      margin-bottom: 4px;
+    }
+
+    .imported-card-header p,
+    .imported-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .profile-index {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      font-weight: 800;
+      flex-shrink: 0;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.48);
+    }
+
+    .intro-form h2 {
+      font-size: 2rem;
+      margin-bottom: 4px;
+    }
+
+    .intro-form p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 6px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(67, 50, 19, 0.16);
+      background: rgba(255, 255, 255, 0.8);
+      color: var(--text);
+      transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+    }
+
+    .field input:focus-visible {
+      outline: none;
+      border-color: rgba(47, 105, 201, 0.52);
+      box-shadow: 0 0 0 4px rgba(47, 105, 201, 0.14);
+      transform: translateY(-1px);
+    }
+
+    .privacy-note {
+      padding: 14px 16px;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.64);
+      border: 1px solid rgba(67, 50, 19, 0.08);
+      color: var(--muted);
+    }
+
+    .primary-button,
+    .secondary-button,
+    .ghost-button {
+      border: none;
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition), color var(--transition), border-color var(--transition);
+    }
+
+    .primary-button {
+      padding: 15px 20px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #1d2634, #3d5d89);
+      color: #fff;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+      box-shadow: 0 16px 28px rgba(29, 38, 52, 0.2);
+    }
+
+    .primary-button:hover:not(:disabled),
+    .secondary-button:hover:not(:disabled),
+    .ghost-button:hover:not(:disabled),
+    .rank-button:hover,
+    .restart-link:hover {
+      transform: translateY(-2px);
+    }
+
+    .primary-button:disabled,
+    .secondary-button:disabled {
+      opacity: 0.46;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .secondary-button {
+      padding: 14px 18px;
+      border-radius: 999px;
+      background: #fff;
+      color: var(--text);
+      font-weight: 800;
+      border: 1px solid rgba(67, 50, 19, 0.12);
+    }
+
+    .ghost-button,
+    .restart-link {
+      padding: 11px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.58);
+      color: var(--text);
+      border: 1px solid rgba(67, 50, 19, 0.1);
+      font-weight: 700;
+    }
+
+    .question-shell,
+    .results-shell {
+      display: grid;
+      gap: 20px;
+    }
+
+    .question-top {
+      padding: 28px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .question-top h2 {
+      font-size: clamp(2rem, 3.1vw, 3rem);
+      margin-bottom: 10px;
+    }
+
+    .question-top p {
+      margin: 0;
+      max-width: 52rem;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+
+    .progress-card {
+      min-width: 220px;
+      padding: 16px 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid rgba(67, 50, 19, 0.08);
+      text-align: right;
+    }
+
+    .progress-card strong {
+      display: block;
+      font-size: 1.8rem;
+      font-family: "Fraunces", serif;
+    }
+
+    .progress-card span {
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .progress-track {
+      height: 12px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(67, 50, 19, 0.08);
+      border: 1px solid rgba(67, 50, 19, 0.06);
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--blue), var(--yellow), var(--green), var(--red));
+      transition: width 240ms ease;
+    }
+
+    .question-card {
+      padding: 30px;
+    }
+
+    .question-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .question-card-header h3 {
+      font-size: 1.7rem;
+    }
+
+    .question-card-header p,
+    .question-footer p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .legend-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .legend-pill {
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.62);
+      border: 1px solid rgba(67, 50, 19, 0.08);
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .option-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .option-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: center;
+      padding: 18px 20px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(67, 50, 19, 0.08);
+      transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+    }
+
+    .option-card:focus-visible {
+      outline: none;
+      transform: translateY(-1px);
+      border-color: rgba(47, 105, 201, 0.44);
+      box-shadow: 0 0 0 4px rgba(47, 105, 201, 0.14);
+    }
+
+    .option-card.is-complete {
+      border-color: rgba(67, 50, 19, 0.14);
+    }
+
+    .option-meta {
+      display: flex;
+      align-items: center;
+    }
+
+    .option-label {
+      font-size: 1.08rem;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .option-rank {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .rank-button {
+      min-width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      border: 1px solid rgba(67, 50, 19, 0.12);
+      background: #fff;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .rank-button.is-active {
+      background: linear-gradient(135deg, #1f2937, #3d5d89);
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 12px 20px rgba(31, 41, 55, 0.18);
+    }
+
+    .rank-button.is-taken:not(.is-active) {
+      background: rgba(67, 50, 19, 0.05);
+      color: var(--muted);
+    }
+
+    .question-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 4px 2px 0;
+    }
+
+    .report-header {
+      padding: 30px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 20px;
+      align-items: end;
+    }
+
+    .report-header h1 {
+      font-size: clamp(2.1rem, 3.6vw, 3.5rem);
+      margin-bottom: 10px;
+    }
+
+    .report-header p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .badge-column {
+      display: grid;
+      gap: 12px;
+      justify-items: end;
+    }
+
+    .type-badge,
+    .type-badge-secondary {
+      max-width: 360px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      text-align: right;
+      font-weight: 800;
+      line-height: 1.45;
+    }
+
+    .type-badge {
+      background: linear-gradient(135deg, rgba(31, 41, 55, 0.95), rgba(61, 93, 137, 0.92));
+      color: #fff;
+      box-shadow: 0 16px 24px rgba(29, 38, 52, 0.18);
+    }
+
+    .type-badge-secondary {
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--text);
+      border: 1px solid rgba(67, 50, 19, 0.08);
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .chart-card,
+    .shift-card,
+    .wheel-panel,
+    .snapshot-grid,
+    .report-section {
+      padding: 24px;
+    }
+
+    .chart-card h2,
+    .shift-card h2,
+    .wheel-panel h2,
+    .snapshot-grid h2,
+    .report-section h2 {
+      font-size: 1.45rem;
+      margin-bottom: 12px;
+    }
+
+    .section-lead {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .bars-svg {
+      width: 100%;
+      height: auto;
+      overflow: visible;
+    }
+
+    .bars-svg text {
+      font-family: "Manrope", sans-serif;
+      font-size: 12px;
+      fill: var(--text);
+    }
+
+    .shift-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 12px;
+      text-align: center;
+    }
+
+    .shift-value {
+      font-family: "Fraunces", serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      line-height: 1;
+    }
+
+    .shift-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .snapshot-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      align-items: start;
+    }
+
+    .snapshot-card {
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.66);
+      border: 1px solid rgba(67, 50, 19, 0.08);
+    }
+
+    .snapshot-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 10px;
+    }
+
+    .snapshot-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.72;
+    }
+
+    .wheel-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+      gap: 24px;
+      align-items: center;
+    }
+
+    .wheel-copy {
+      display: grid;
+      gap: 14px;
+    }
+
+    .wheel-copy p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .wheel-copy ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .wheel-svg {
+      width: min(100%, 620px);
+      margin-inline: auto;
+      overflow: visible;
+    }
+
+    .group-wheel-card .wheel-svg {
+      width: min(100%, 500px);
+    }
+
+    .wheel-cell {
+      stroke: none;
+    }
+
+    .wheel-band {
+      stroke: rgba(255, 250, 241, 0.98);
+      stroke-width: 2.4;
+    }
+
+    .wheel-band-label {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      dominant-baseline: middle;
+      text-anchor: middle;
+    }
+
+    .wheel-position-number {
+      font-size: 7.2px;
+      font-weight: 700;
+      fill: rgba(31, 26, 20, 0.82);
+      text-anchor: middle;
+      dominant-baseline: middle;
+      pointer-events: none;
+    }
+
+    .wheel-guide-line {
+      stroke: rgba(67, 50, 19, 0.54);
+      stroke-width: 1.1;
+      stroke-dasharray: 3.5 6;
+    }
+
+    .wheel-sector-line {
+      stroke: rgba(20, 16, 12, 0.96);
+      stroke-width: 1.8;
+    }
+
+    .wheel-subdivision-line {
+      stroke: rgba(67, 50, 19, 0.82);
+      stroke-width: 1.12;
+    }
+
+    .wheel-ring-circle {
+      fill: none;
+      stroke: rgba(20, 16, 12, 0.96);
+      stroke-width: 1.72;
+    }
+
+    .wheel-hub-shell {
+      fill: rgba(255, 255, 255, 0.96);
+      stroke: rgba(20, 16, 12, 0.96);
+      stroke-width: 1.6;
+    }
+
+    .wheel-hub-cross {
+      stroke: rgba(20, 16, 12, 0.96);
+      stroke-width: 1.08;
+    }
+
+    .wheel-marker-outline {
+      fill: none;
+      stroke: rgba(20, 16, 12, 0.96);
+      stroke-width: 1.35;
+    }
+
+    .wheel-marker-private-outline {
+      fill: none;
+      stroke-width: 1.45;
+      stroke-dasharray: 3 2;
+    }
+
+    .wheel-position-summary {
+      width: min(100%, 560px);
+      display: grid;
+      gap: 10px;
+      margin-top: 2px;
+      text-align: center;
+    }
+
+    .wheel-position-block {
+      padding: 10px 12px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(67, 50, 19, 0.08);
+    }
+
+    .wheel-position-heading {
+      display: block;
+      margin-bottom: 6px;
+      color: #0d4f87;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .wheel-position-block strong {
+      display: block;
+      font-family: "Fraunces", serif;
+      font-size: clamp(1.18rem, 2.5vw, 1.5rem);
+      font-weight: 700;
+      line-height: 1.28;
+    }
+
+    .report-sections {
+      display: grid;
+      gap: 18px;
+    }
+
+    .report-section h2 {
+      margin-bottom: 14px;
+    }
+
+    .report-section p {
+      margin: 0 0 14px;
+      line-height: 1.78;
+      color: #2b241c;
+    }
+
+    .report-section ul {
+      margin: 0;
+      padding-left: 20px;
+      line-height: 1.85;
+      color: #2b241c;
+    }
+
+    .report-section li + li {
+      margin-top: 6px;
+    }
+
+    .subtle {
+      color: var(--muted);
+    }
+
+    .no-script {
+      max-width: 720px;
+      margin: 72px auto;
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      background: #fff9ef;
+      border: 1px solid rgba(67, 50, 19, 0.12);
+      box-shadow: var(--shadow);
+      line-height: 1.75;
+    }
+
+    @media (max-width: 1040px) {
+      .intro-layout,
+      .results-grid,
+      .wheel-layout,
+      .snapshot-grid,
+      .summary-grid,
+      .group-wheel-grid,
+      .imported-list {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .question-top,
+      .report-header,
+      .comparison-header {
+        grid-template-columns: 1fr;
+      }
+
+      .badge-column {
+        justify-items: start;
+      }
+
+      .type-badge,
+      .type-badge-secondary {
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 740px) {
+      body {
+        padding: 16px;
+      }
+
+      .hero-panel,
+      .intro-form,
+      .comparison-shell,
+      .question-card,
+      .question-top,
+      .chart-card,
+      .shift-card,
+      .wheel-panel,
+      .snapshot-grid,
+      .report-section,
+      .report-header {
+        padding: 20px;
+      }
+
+      .field-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .energy-strip {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .upload-toolbar {
+        justify-content: flex-start;
+      }
+
+      .question-card-header,
+      .question-footer,
+      .option-card {
+        grid-template-columns: 1fr;
+      }
+
+      .question-card-header,
+      .question-footer {
+        display: grid;
+      }
+
+      .option-rank {
+        justify-content: flex-start;
+      }
+    }
+
+    @media print {
+      @page {
+        margin: 12mm;
+      }
+
+      body {
+        padding: 0;
+        background: #fff;
+      }
+
+      .intro-layout,
+      .comparison-shell,
+      .question-shell,
+      .toolbar,
+      .ghost-button,
+      .restart-link {
+        display: none !important;
+      }
+
+      .panel,
+      .snapshot-card {
+        box-shadow: none;
+        border-color: rgba(0, 0, 0, 0.12);
+        background: #fff;
+      }
+
+      .results-shell {
+        gap: 12px;
+      }
+
+      .report-header,
+      .chart-card,
+      .shift-card,
+      .wheel-panel,
+      .snapshot-grid,
+      .report-section {
+        break-inside: avoid;
+      }
+
+      .app-shell[data-print-mode="comparison"] .comparison-shell {
+        display: grid !important;
+        margin-top: 0;
+        padding: 0;
+        border: none;
+        gap: 14px;
+      }
+
+      .app-shell[data-print-mode="comparison"] .intro-layout,
+      .app-shell[data-print-mode="comparison"] .results-shell,
+      .app-shell[data-print-mode="comparison"] .question-shell {
+        display: none !important;
+      }
+
+      .app-shell[data-print-mode="comparison"] .upload-toolbar,
+      .app-shell[data-print-mode="comparison"] .comparison-empty {
+        display: none !important;
+      }
+
+      .app-shell[data-print-mode="comparison"] .summary-card,
+      .app-shell[data-print-mode="comparison"] .group-wheel-card,
+      .app-shell[data-print-mode="comparison"] .imported-card,
+      .app-shell[data-print-mode="comparison"] .upload-error-list {
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <noscript>
+    <div class="no-script">
+      Cette application a besoin de JavaScript pour fonctionner. Activez JavaScript, puis rechargez la page.
+    </div>
+  </noscript>
+
+  <div id="app" class="app-shell" :data-print-mode="printMode || 'default'">
+    <template v-if="screen === 'intro'">
+      <section class="intro-layout">
+        <div class="hero-panel panel">
+          <p class="eyebrow">Évaluation 100 % locale</p>
+          <h1>Boussole des Énergies Jungiennes</h1>
+          <p class="hero-tagline">
+            Une expérience de découverte de profil inspirée de la typologie jungienne et d’un modèle à quatre énergies de couleur.
+          </p>
+          <p class="hero-copy">
+            Vous allez classer 36 séries de mots, sans limite de temps. Le rapport final compare votre visage public et votre dynamique moins consciente, puis génère une synthèse détaillée directement dans votre navigateur.
+          </p>
+
+          <div class="hero-grid">
+            <div class="hero-stat">
+              <strong>36</strong>
+              <span>séries de mots réparties en deux parties complémentaires.</span>
+            </div>
+            <div class="hero-stat">
+              <strong>72</strong>
+              <span>positions possibles sur la roue de personnalité.</span>
+            </div>
+            <div class="hero-stat">
+              <strong>0</strong>
+              <span>donnée enregistrée au-delà de votre session active.</span>
+            </div>
+          </div>
+
+          <div class="energy-strip" aria-hidden="true">
+            <div class="energy-blue">Bleu · Analyse</div>
+            <div class="energy-green">Vert · Soutien</div>
+            <div class="energy-yellow">Jaune · Expression</div>
+            <div class="energy-red">Rouge · Décision</div>
+          </div>
+        </div>
+
+        <div class="intro-form panel">
+          <div>
+            <p class="eyebrow">Démarrage</p>
+            <h2>Commencer l’évaluation</h2>
+            <p>Votre nom sert uniquement à personnaliser le rapport final et le fichier JSON exporté.</p>
+          </div>
+
+          <div class="field-grid">
+            <div class="field">
+              <label for="first-name">Prénom</label>
+              <input
+                id="first-name"
+                v-model.trim="firstName"
+                type="text"
+                autocomplete="given-name"
+                placeholder="Exemple : Claire"
+              >
+            </div>
+            <div class="field">
+              <label for="last-name">Nom</label>
+              <input
+                id="last-name"
+                v-model.trim="lastName"
+                type="text"
+                autocomplete="family-name"
+                placeholder="Exemple : Martin"
+              >
+            </div>
+          </div>
+
+          <div class="privacy-note">
+            Aucune donnée n’est envoyée, sauvegardée ou suivie. Les réponses restent uniquement en mémoire jusqu’au rechargement de la page.
+          </div>
+
+          <button class="primary-button" :disabled="!canStart" @click="startAssessment">
+            Commencer l’évaluation
+          </button>
+        </div>
+      </section>
+
+      <section class="comparison-shell panel">
+        <div class="comparison-header">
+          <div>
+            <p class="eyebrow">Analyse croisée</p>
+            <h2>Importer plusieurs rapports</h2>
+            <p>Chargez plusieurs fichiers JSON exportés par l’application pour afficher toutes les positions sur les roues publique et privée.</p>
+          </div>
+
+          <div class="upload-toolbar">
+            <label class="file-picker">
+              <input
+                type="file"
+                accept=".json,application/json"
+                multiple
+                @change="handleReportUpload"
+              >
+              <span>{{ hasUploadedReports ? 'Ajouter des résultats JSON' : 'Importer des résultats JSON' }}</span>
+            </label>
+            <button class="secondary-button" :disabled="!hasUploadedReports" @click="printComparison">Télécharger la comparaison PDF</button>
+            <button class="ghost-button" :disabled="uploadedReports.length === 0" @click="clearUploadedReports">Effacer l’analyse</button>
+          </div>
+        </div>
+
+        <p class="comparison-note">
+          Les fichiers restent locaux dans votre navigateur. Chaque point numéroté sur la roue correspond à un profil listé plus bas.
+        </p>
+
+        <ul v-if="importErrors.length > 0" class="upload-error-list">
+          <li v-for="error in importErrors" :key="error">{{ error }}</li>
+        </ul>
+
+        <div v-if="hasUploadedReports" class="comparison-content">
+          <div class="summary-grid">
+            <div class="summary-card">
+              <strong>{{ uploadedReports.length }}</strong>
+              <span>profil{{ uploadedReports.length > 1 ? 's' : '' }} importé{{ uploadedReports.length > 1 ? 's' : '' }}</span>
+            </div>
+            <div class="summary-card">
+              <strong>{{ mostCommonConsciousArchetype ? mostCommonConsciousArchetype.label : '—' }}</strong>
+              <span>
+                archétype public le plus fréquent
+                <template v-if="mostCommonConsciousArchetype">· {{ mostCommonConsciousArchetype.count }}</template>
+              </span>
+            </div>
+            <div class="summary-card">
+              <strong>{{ mostCommonLessConsciousArchetype ? mostCommonLessConsciousArchetype.label : '—' }}</strong>
+              <span>
+                archétype privé le plus fréquent
+                <template v-if="mostCommonLessConsciousArchetype">· {{ mostCommonLessConsciousArchetype.count }}</template>
+              </span>
+            </div>
+            <div class="summary-card">
+              <strong>{{ formatPercent(uploadedAverageShift) }}%</strong>
+              <span>déplacement énergétique moyen</span>
+            </div>
+          </div>
+
+          <div class="group-wheel-grid">
+            <article class="group-wheel-card">
+              <p class="eyebrow">Vue publique</p>
+              <h3>Roue des personas conscientes</h3>
+              <p>Les points pleins montrent où chaque personne se situe le plus visiblement.</p>
+
+              <div class="wheel-diagram">
+                <svg class="wheel-svg" viewBox="0 0 400 400" role="img" aria-label="Roue des personas conscientes importées">
+                  <defs>
+                    <path
+                      v-for="segment in wheelBase.segments"
+                      :id="wheelLabelPathId('comparison-conscious', segment.key)"
+                      :key="`comparison-conscious-label-path-${segment.key}`"
+                      :d="segment.labelPath"
+                    ></path>
+                  </defs>
+
+                  <g>
+                    <path
+                      v-for="cell in wheelBase.cells"
+                      :key="`comparison-conscious-cell-${cell.key}`"
+                      class="wheel-cell"
+                      :d="cell.path"
+                      :fill="cell.fill"
+                    ></path>
+
+                    <line
+                      v-for="guide in wheelBase.guideLines"
+                      :key="`comparison-conscious-guide-${guide.key}`"
+                      class="wheel-guide-line"
+                      :x1="guide.x1"
+                      :y1="guide.y1"
+                      :x2="guide.x2"
+                      :y2="guide.y2"
+                    ></line>
+
+                    <line
+                      v-for="line in wheelBase.subdivisionLines"
+                      :key="`comparison-conscious-subdivision-${line.key}`"
+                      class="wheel-subdivision-line"
+                      :x1="line.x1"
+                      :y1="line.y1"
+                      :x2="line.x2"
+                      :y2="line.y2"
+                    ></line>
+
+                    <line
+                      v-for="line in wheelBase.segmentLines"
+                      :key="`comparison-conscious-segment-${line.key}`"
+                      class="wheel-sector-line"
+                      :x1="line.x1"
+                      :y1="line.y1"
+                      :x2="line.x2"
+                      :y2="line.y2"
+                    ></line>
+
+                    <circle
+                      v-for="radius in wheelBase.ringCircles"
+                      :key="`comparison-conscious-circle-${radius}`"
+                      class="wheel-ring-circle"
+                      :cx="wheelBase.center"
+                      :cy="wheelBase.center"
+                      :r="radius"
+                    ></circle>
+
+                    <path
+                      v-for="segment in wheelBase.segments"
+                      :key="`comparison-conscious-band-${segment.key}`"
+                      class="wheel-band"
+                      :d="segment.bandPath"
+                      :fill="segment.bandFill"
+                    >
+                      <title>{{ segment.fullLabel }}</title>
+                    </path>
+
+                    <text
+                      v-for="segment in wheelBase.segments"
+                      :key="`comparison-conscious-label-${segment.key}`"
+                      class="wheel-band-label"
+                      :fill="segment.labelColor"
+                    >
+                      <textPath :href="`#${wheelLabelPathId('comparison-conscious', segment.key)}`" startOffset="50%">
+                        {{ segment.shortLabel }}
+                      </textPath>
+                    </text>
+
+                    <text
+                      v-for="label in wheelBase.positionLabels"
+                      :key="`comparison-conscious-position-${label.position}`"
+                      class="wheel-position-number"
+                      :x="label.x"
+                      :y="label.y"
+                    >
+                      {{ label.position }}
+                    </text>
+
+                    <circle
+                      class="wheel-hub-shell"
+                      :cx="wheelBase.center"
+                      :cy="wheelBase.center"
+                      :r="wheelBase.hubShellRadius"
+                    ></circle>
+
+                    <path
+                      v-for="slice in wheelBase.hubSlices"
+                      :key="`comparison-conscious-hub-${slice.key}`"
+                      :d="slice.path"
+                      :fill="slice.fill"
+                      :opacity="slice.opacity"
+                    ></path>
+
+                    <circle
+                      class="wheel-marker-outline"
+                      :cx="wheelBase.center"
+                      :cy="wheelBase.center"
+                      :r="wheelBase.hubColorRadius"
+                    ></circle>
+
+                    <line
+                      v-for="line in wheelBase.hubCrossLines"
+                      :key="`comparison-conscious-cross-${line.key}`"
+                      class="wheel-hub-cross"
+                      :x1="line.x1"
+                      :y1="line.y1"
+                      :x2="line.x2"
+                      :y2="line.y2"
+                    ></line>
+
+                    <g v-for="marker in importedConsciousMarkers" :key="marker.key">
+                      <circle
+                        :cx="marker.x"
+                        :cy="marker.y"
+                        r="10"
+                        :fill="marker.color"
+                        stroke="#ffffff"
+                        stroke-width="2.2"
+                      >
+                        <title>{{ marker.title }}</title>
+                      </circle>
+                      <text
+                        class="marker-number"
+                        :x="marker.x"
+                        :y="marker.y + 1"
+                        :fill="marker.labelColor"
+                      >
+                        {{ marker.index }}
+                      </text>
+                    </g>
+                  </g>
+                </svg>
+
+                <div class="wheel-legend-note">
+                  {{ uploadedReports.length }} profil{{ uploadedReports.length > 1 ? 's' : '' }} superposé{{ uploadedReports.length > 1 ? 's' : '' }}
+                </div>
+              </div>
+            </article>
+
+            <article class="group-wheel-card">
+              <p class="eyebrow">Vue privée</p>
+              <h3>Roue des dynamiques moins conscientes</h3>
+              <p>Les points cerclés montrent la position qui ressort davantage dans l’intimité ou sous tension.</p>
+
+              <div class="wheel-diagram">
+                <svg class="wheel-svg" viewBox="0 0 400 400" role="img" aria-label="Roue des dynamiques privées importées">
+                  <defs>
+                    <path
+                      v-for="segment in wheelBase.segments"
+                      :id="wheelLabelPathId('comparison-private', segment.key)"
+                      :key="`comparison-private-label-path-${segment.key}`"
+                      :d="segment.labelPath"
+                    ></path>
+                  </defs>
+
+                  <g>
+                    <path
+                      v-for="cell in wheelBase.cells"
+                      :key="`comparison-private-cell-${cell.key}`"
+                      class="wheel-cell"
+                      :d="cell.path"
+                      :fill="cell.fill"
+                    ></path>
+
+                    <line
+                      v-for="guide in wheelBase.guideLines"
+                      :key="`comparison-private-guide-${guide.key}`"
+                      class="wheel-guide-line"
+                      :x1="guide.x1"
+                      :y1="guide.y1"
+                      :x2="guide.x2"
+                      :y2="guide.y2"
+                    ></line>
+
+                    <line
+                      v-for="line in wheelBase.subdivisionLines"
+                      :key="`comparison-private-subdivision-${line.key}`"
+                      class="wheel-subdivision-line"
+                      :x1="line.x1"
+                      :y1="line.y1"
+                      :x2="line.x2"
+                      :y2="line.y2"
+                    ></line>
+
+                    <line
+                      v-for="line in wheelBase.segmentLines"
+                      :key="`comparison-private-segment-${line.key}`"
+                      class="wheel-sector-line"
+                      :x1="line.x1"
+                      :y1="line.y1"
+                      :x2="line.x2"
+                      :y2="line.y2"
+                    ></line>
+
+                    <circle
+                      v-for="radius in wheelBase.ringCircles"
+                      :key="`comparison-private-circle-${radius}`"
+                      class="wheel-ring-circle"
+                      :cx="wheelBase.center"
+                      :cy="wheelBase.center"
+                      :r="radius"
+                    ></circle>
+
+                    <path
+                      v-for="segment in wheelBase.segments"
+                      :key="`comparison-private-band-${segment.key}`"
+                      class="wheel-band"
+                      :d="segment.bandPath"
+                      :fill="segment.bandFill"
+                    >
+                      <title>{{ segment.fullLabel }}</title>
+                    </path>
+
+                    <text
+                      v-for="segment in wheelBase.segments"
+                      :key="`comparison-private-label-${segment.key}`"
+                      class="wheel-band-label"
+                      :fill="segment.labelColor"
+                    >
+                      <textPath :href="`#${wheelLabelPathId('comparison-private', segment.key)}`" startOffset="50%">
+                        {{ segment.shortLabel }}
+                      </textPath>
+                    </text>
+
+                    <text
+                      v-for="label in wheelBase.positionLabels"
+                      :key="`comparison-private-position-${label.position}`"
+                      class="wheel-position-number"
+                      :x="label.x"
+                      :y="label.y"
+                    >
+                      {{ label.position }}
+                    </text>
+
+                    <circle
+                      class="wheel-hub-shell"
+                      :cx="wheelBase.center"
+                      :cy="wheelBase.center"
+                      :r="wheelBase.hubShellRadius"
+                    ></circle>
+
+                    <path
+                      v-for="slice in wheelBase.hubSlices"
+                      :key="`comparison-private-hub-${slice.key}`"
+                      :d="slice.path"
+                      :fill="slice.fill"
+                      :opacity="slice.opacity"
+                    ></path>
+
+                    <circle
+                      class="wheel-marker-outline"
+                      :cx="wheelBase.center"
+                      :cy="wheelBase.center"
+                      :r="wheelBase.hubColorRadius"
+                    ></circle>
+
+                    <line
+                      v-for="line in wheelBase.hubCrossLines"
+                      :key="`comparison-private-cross-${line.key}`"
+                      class="wheel-hub-cross"
+                      :x1="line.x1"
+                      :y1="line.y1"
+                      :x2="line.x2"
+                      :y2="line.y2"
+                    ></line>
+
+                    <g v-for="marker in importedLessConsciousMarkers" :key="marker.key">
+                      <circle
+                        :cx="marker.x"
+                        :cy="marker.y"
+                        r="10.6"
+                        fill="rgba(255,255,255,0.92)"
+                        :stroke="marker.color"
+                        stroke-width="2.6"
+                        stroke-dasharray="3.6 2.2"
+                      >
+                        <title>{{ marker.title }}</title>
+                      </circle>
+                      <text
+                        class="marker-number"
+                        :x="marker.x"
+                        :y="marker.y + 1"
+                        :fill="marker.labelColor"
+                      >
+                        {{ marker.index }}
+                      </text>
+                    </g>
+                  </g>
+                </svg>
+
+                <div class="wheel-legend-note">
+                  {{ uploadedReports.length }} profil{{ uploadedReports.length > 1 ? 's' : '' }} superposé{{ uploadedReports.length > 1 ? 's' : '' }}
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div class="imported-list">
+            <article v-for="(profile, profileIndex) in uploadedReports" :key="profile.id" class="imported-card">
+              <div class="imported-card-header">
+                <span class="profile-index" :style="getMarkerBadgeStyle(profile.conscious.dominant)">{{ profileIndex + 1 }}</span>
+                <div>
+                  <h3>{{ profile.fullName }}</h3>
+                  <p>{{ formatImportedDate(profile.generatedAt) }}</p>
+                </div>
+              </div>
+              <p><strong>Public :</strong> {{ profile.conscious.archetype.label }} · position {{ profile.conscious.archetype.position }}</p>
+              <p><strong>Privé :</strong> {{ profile.lessConscious.archetype.label }} · position {{ profile.lessConscious.archetype.position }}</p>
+            </article>
+          </div>
+        </div>
+
+        <div v-else class="comparison-empty">
+          Importez plusieurs fichiers JSON générés par cette application pour obtenir une vue de groupe directement sur les deux roues.
+        </div>
+      </section>
+    </template>
+
+    <section v-else-if="screen === 'questions'" class="question-shell">
+      <header class="question-top panel">
+        <div>
+          <p class="eyebrow">{{ currentBlockTitle }}</p>
+          <h2>Question {{ currentQuestionIndex + 1 }} sur {{ totalQuestions }}</h2>
+          <p>
+            Classez chaque proposition de <strong>4</strong> (la plus ressemblante) à <strong>1</strong> (la moins ressemblante).
+            Vous pouvez cliquer sur les chiffres ou utiliser les flèches du clavier lorsque la ligne est sélectionnée.
+          </p>
+        </div>
+
+        <div class="progress-card">
+          <strong>{{ formatPercent(progressPercent, 0) }} %</strong>
+          <span>{{ answeredQuestionsCount }} question{{ answeredQuestionsCount > 1 ? 's' : '' }} validée{{ answeredQuestionsCount > 1 ? 's' : '' }}</span>
+        </div>
+      </header>
+
+      <div class="progress-track panel" aria-hidden="true">
+        <div class="progress-fill" :style="{ width: `${progressPercent}%` }"></div>
+      </div>
+
+      <div class="question-card panel">
+        <div class="question-card-header">
+          <div>
+            <p class="eyebrow">Série {{ currentBlockQuestionNumber }} sur 18</p>
+            <h3>{{ currentQuestion.block === 'conscious' ? 'Votre visage public' : 'Votre dynamique privée' }}</h3>
+          </div>
+          <button class="ghost-button" @click="resetCurrentQuestion">Effacer ce classement</button>
+        </div>
+
+        <div class="legend-row" aria-hidden="true">
+          <span class="legend-pill">4 = le plus ressemblant</span>
+          <span class="legend-pill">1 = le moins ressemblant</span>
+          <span class="legend-pill">Chaque chiffre doit être utilisé une seule fois</span>
+        </div>
+
+        <div class="option-list">
+          <div
+            v-for="(option, optionIndex) in currentQuestion.options"
+            :key="`${currentQuestion.id}-${optionIndex}`"
+            class="option-card"
+            :class="{ 'is-complete': currentRanks[optionIndex] !== null }"
+            tabindex="0"
+            @keydown.left.prevent="shiftRank(optionIndex, -1)"
+            @keydown.right.prevent="shiftRank(optionIndex, 1)"
+            @keydown.up.prevent="shiftRank(optionIndex, 1)"
+            @keydown.down.prevent="shiftRank(optionIndex, -1)"
+          >
+            <div class="option-meta">
+              <span class="option-label">{{ option.label }}</span>
+            </div>
+
+            <div class="option-rank" role="group" :aria-label="`Classement pour ${option.label}`">
+              <button
+                v-for="rank in rankOrder"
+                :key="rank"
+                class="rank-button"
+                :class="{
+                  'is-active': currentRanks[optionIndex] === rank,
+                  'is-taken': isRankTakenByAnother(optionIndex, rank)
+                }"
+                type="button"
+                :aria-pressed="currentRanks[optionIndex] === rank"
+                :aria-label="`${option.label}, rang ${rank}`"
+                @click="assignRank(optionIndex, rank)"
+              >
+                {{ rank }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="question-footer">
+        <p>{{ completionMessage }}</p>
+        <button class="primary-button" :disabled="!isCurrentQuestionComplete" @click="nextQuestion">
+          {{ isLastQuestion ? 'Voir mon rapport' : 'Question suivante' }}
+        </button>
+      </footer>
+    </section>
+
+    <section v-else class="results-shell">
+      <header class="report-header panel">
+        <div>
+          <p class="eyebrow">Rapport de personnalité</p>
+          <h1>{{ fullName }}</h1>
+          <p>{{ formattedReportDate }} · Boussole des Énergies Jungiennes</p>
+          <p>
+            {{ report.conscious.archetype.label }} en public, {{ report.lessConscious.archetype.label.toLowerCase() }} en dynamique moins consciente.
+          </p>
+        </div>
+
+        <div class="badge-column">
+          <div class="type-badge">
+            {{ getArchetypeBadge(report.conscious) }}<br>
+            Position {{ report.conscious.archetype.position }}
+          </div>
+          <div class="type-badge-secondary">
+            {{ getArchetypeBadge(report.lessConscious) }}<br>
+            Position {{ report.lessConscious.archetype.position }}
+          </div>
+        </div>
+      </header>
+
+      <div class="toolbar">
+        <button class="primary-button" @click="printReport">Télécharger le PDF</button>
+        <button class="secondary-button" @click="downloadJson">Télécharger les données JSON</button>
+        <button class="ghost-button" @click="restartAssessment">Recommencer</button>
+      </div>
+
+      <section class="results-grid">
+        <article class="chart-card panel">
+          <p class="eyebrow">Persona consciente</p>
+          <h2>Votre visage public</h2>
+          <p class="section-lead">La manière dont vous apparaissez le plus naturellement dans un contexte visible ou professionnel.</p>
+          <svg class="bars-svg" viewBox="0 0 320 220" role="img" aria-label="Répartition des énergies de la persona consciente">
+            <g v-for="(energy, index) in chartEnergies" :key="`conscious-${energy.key}`">
+              <text x="0" :y="35 + index * 48">{{ energy.emoji }} {{ energy.label }}</text>
+              <rect x="88" :y="18 + index * 48" width="210" height="28" rx="14" fill="rgba(67, 50, 19, 0.08)"></rect>
+              <rect
+                x="88"
+                :y="18 + index * 48"
+                :width="Math.max(8, 210 * (report.conscious.percentages[energy.key] / 100))"
+                height="28"
+                rx="14"
+                :fill="energy.color"
+              ></rect>
+              <text x="308" :y="35 + index * 48" text-anchor="end">{{ formatPercent(report.conscious.percentages[energy.key]) }}%</text>
+            </g>
+          </svg>
+        </article>
+
+        <article class="shift-card panel">
+          <p class="eyebrow">Variation</p>
+          <h2>Déplacement énergétique</h2>
+          <div class="shift-value">{{ report.shift.arrow }} {{ formatPercent(report.shift.value) }}%</div>
+          <p>{{ report.shift.label }}</p>
+          <p>{{ report.shift.description }}</p>
+        </article>
+
+        <article class="chart-card panel">
+          <p class="eyebrow">Persona moins consciente</p>
+          <h2>Votre dynamique privée</h2>
+          <p class="section-lead">La dynamique qui apparaît plus facilement dans l’intimité, sous tension ou lorsque vous relâchez le contrôle.</p>
+          <svg class="bars-svg" viewBox="0 0 320 220" role="img" aria-label="Répartition des énergies de la persona moins consciente">
+            <g v-for="(energy, index) in chartEnergies" :key="`private-${energy.key}`">
+              <text x="0" :y="35 + index * 48">{{ energy.emoji }} {{ energy.label }}</text>
+              <rect x="88" :y="18 + index * 48" width="210" height="28" rx="14" fill="rgba(67, 50, 19, 0.08)"></rect>
+              <rect
+                x="88"
+                :y="18 + index * 48"
+                :width="Math.max(8, 210 * (report.lessConscious.percentages[energy.key] / 100))"
+                height="28"
+                rx="14"
+                :fill="energy.color"
+              ></rect>
+              <text x="308" :y="35 + index * 48" text-anchor="end">{{ formatPercent(report.lessConscious.percentages[energy.key]) }}%</text>
+            </g>
+          </svg>
+        </article>
+      </section>
+
+      <section class="wheel-panel panel">
+        <div class="wheel-layout">
+          <div class="wheel-diagram">
+            <p class="eyebrow">Roue de personnalité</p>
+            <h2>Votre positionnement archétypal</h2>
+            <p class="section-lead">
+              Le disque intense représente votre position consciente. Le disque plus clair représente la position qui apparaît davantage lorsque le contrôle baisse.
+            </p>
+
+            <svg class="wheel-svg" viewBox="0 0 400 400" role="img" aria-label="Roue des archétypes de personnalité">
+              <defs>
+                <path
+                  v-for="segment in wheelBase.segments"
+                  :id="wheelLabelPathId('result', segment.key)"
+                  :key="`result-label-path-${segment.key}`"
+                  :d="segment.labelPath"
+                ></path>
+              </defs>
+
+              <g>
+                <path
+                  v-for="cell in wheelBase.cells"
+                  :key="`result-cell-${cell.key}`"
+                  class="wheel-cell"
+                  :d="cell.path"
+                  :fill="cell.fill"
+                ></path>
+
+                <line
+                  v-for="guide in wheelBase.guideLines"
+                  :key="`result-guide-${guide.key}`"
+                  class="wheel-guide-line"
+                  :x1="guide.x1"
+                  :y1="guide.y1"
+                  :x2="guide.x2"
+                  :y2="guide.y2"
+                ></line>
+
+                <line
+                  v-for="line in wheelBase.subdivisionLines"
+                  :key="`result-subdivision-${line.key}`"
+                  class="wheel-subdivision-line"
+                  :x1="line.x1"
+                  :y1="line.y1"
+                  :x2="line.x2"
+                  :y2="line.y2"
+                ></line>
+
+                <line
+                  v-for="line in wheelBase.segmentLines"
+                  :key="`result-segment-${line.key}`"
+                  class="wheel-sector-line"
+                  :x1="line.x1"
+                  :y1="line.y1"
+                  :x2="line.x2"
+                  :y2="line.y2"
+                ></line>
+
+                <circle
+                  v-for="radius in wheelBase.ringCircles"
+                  :key="`result-circle-${radius}`"
+                  class="wheel-ring-circle"
+                  :cx="wheelBase.center"
+                  :cy="wheelBase.center"
+                  :r="radius"
+                ></circle>
+
+                <path
+                  v-for="segment in wheelBase.segments"
+                  :key="`result-band-${segment.key}`"
+                  class="wheel-band"
+                  :d="segment.bandPath"
+                  :fill="segment.bandFill"
+                >
+                  <title>{{ segment.fullLabel }}</title>
+                </path>
+
+                <text
+                  v-for="segment in wheelBase.segments"
+                  :key="`result-label-${segment.key}`"
+                  class="wheel-band-label"
+                  :fill="segment.labelColor"
+                >
+                  <textPath :href="`#${wheelLabelPathId('result', segment.key)}`" startOffset="50%">
+                    {{ segment.shortLabel }}
+                  </textPath>
+                </text>
+
+                <text
+                  v-for="label in wheelBase.positionLabels"
+                  :key="`result-position-${label.position}`"
+                  class="wheel-position-number"
+                  :x="label.x"
+                  :y="label.y"
+                >
+                  {{ label.position }}
+                </text>
+
+                <circle
+                  class="wheel-hub-shell"
+                  :cx="wheelBase.center"
+                  :cy="wheelBase.center"
+                  :r="wheelBase.hubShellRadius"
+                ></circle>
+
+                <path
+                  v-for="slice in wheelBase.hubSlices"
+                  :key="`result-hub-${slice.key}`"
+                  :d="slice.path"
+                  :fill="slice.fill"
+                  :opacity="slice.opacity"
+                ></path>
+
+                <circle
+                  class="wheel-marker-outline"
+                  :cx="wheelBase.center"
+                  :cy="wheelBase.center"
+                  :r="wheelBase.hubColorRadius"
+                ></circle>
+
+                <line
+                  v-for="line in wheelBase.hubCrossLines"
+                  :key="`result-cross-${line.key}`"
+                  class="wheel-hub-cross"
+                  :x1="line.x1"
+                  :y1="line.y1"
+                  :x2="line.x2"
+                  :y2="line.y2"
+                ></line>
+
+                <g>
+                  <title>{{ report.conscious.archetype.label }} · position {{ report.conscious.archetype.position }}</title>
+                  <path
+                    v-for="slice in consciousMarkerSlices"
+                    :key="`result-conscious-marker-${slice.key}`"
+                    :d="slice.path"
+                    :fill="slice.fill"
+                    :opacity="slice.opacity"
+                  ></path>
+                  <circle
+                    class="wheel-marker-outline"
+                    :cx="consciousMarker.x"
+                    :cy="consciousMarker.y"
+                    r="11.2"
+                  ></circle>
+                </g>
+
+                <g>
+                  <title>{{ report.lessConscious.archetype.label }} · position {{ report.lessConscious.archetype.position }}</title>
+                  <circle
+                    :cx="lessConsciousMarker.x"
+                    :cy="lessConsciousMarker.y"
+                    r="10.2"
+                    fill="rgba(255,255,255,0.64)"
+                  ></circle>
+                  <path
+                    v-for="slice in lessConsciousMarkerSlices"
+                    :key="`result-private-marker-${slice.key}`"
+                    :d="slice.path"
+                    :fill="slice.fill"
+                    :opacity="slice.opacity"
+                  ></path>
+                  <circle
+                    class="wheel-marker-private-outline"
+                    :cx="lessConsciousMarker.x"
+                    :cy="lessConsciousMarker.y"
+                    r="10.6"
+                    :stroke="energyLibrary[report.lessConscious.dominant].color"
+                  ></circle>
+                </g>
+              </g>
+            </svg>
+
+            <div class="wheel-position-summary">
+              <div class="wheel-position-block">
+                <span class="wheel-position-heading">Position consciente sur la roue</span>
+                <strong>{{ report.conscious.archetype.position }}: {{ report.conscious.archetype.label }}</strong>
+              </div>
+              <div class="wheel-position-block">
+                <span class="wheel-position-heading">Position moins consciente sur la roue</span>
+                <strong>{{ report.lessConscious.archetype.position }}: {{ report.lessConscious.archetype.label }}</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="wheel-copy">
+            <p>
+              <strong>Conscient :</strong> {{ report.conscious.archetype.label }} avec une dominance
+              {{ energyLibrary[report.conscious.dominant].label.toLowerCase() }} appuyée par
+              {{ energyLibrary[report.conscious.secondary].label.toLowerCase() }}.
+            </p>
+            <p>
+              <strong>Moins conscient :</strong> {{ report.lessConscious.archetype.label }} avec une dominance
+              {{ energyLibrary[report.lessConscious.dominant].label.toLowerCase() }}.
+            </p>
+            <ul>
+              <li>Dominance consciente : {{ energyLibrary[report.conscious.dominant].label }} puis {{ energyLibrary[report.conscious.secondary].label.toLowerCase() }}</li>
+              <li>Dominance moins consciente : {{ energyLibrary[report.lessConscious.dominant].label }} puis {{ energyLibrary[report.lessConscious.secondary].label.toLowerCase() }}</li>
+              <li>Type opposé principal : {{ report.opposite.label }}</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="snapshot-grid panel">
+        <div class="snapshot-card">
+          <p class="eyebrow">Lecture rapide</p>
+          <h3>Signature publique</h3>
+          <p>{{ report.conscious.archetype.summary }}</p>
+        </div>
+
+        <div class="snapshot-card">
+          <p class="eyebrow">Lecture rapide</p>
+          <h3>Signature privée</h3>
+          <p>{{ report.lessConscious.archetype.summary }}</p>
+        </div>
+      </section>
+
+      <section class="report-sections">
+        <article v-for="section in report.sections" :key="section.key" class="report-section panel">
+          <h2>{{ section.title }}</h2>
+          <template v-for="(block, blockIndex) in section.blocks" :key="`${section.key}-${blockIndex}`">
+            <p v-if="block.type === 'paragraph'">{{ block.text }}</p>
+            <ul v-else>
+              <li v-for="item in block.items" :key="item">{{ item }}</li>
+            </ul>
+          </template>
+        </article>
+      </section>
+    </section>
+  </div>
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  <script>
+    const APP_NAME = "Boussole des Énergies Jungiennes";
+    const ENERGY_ORDER = ["blue", "green", "yellow", "red"];
+    const RANK_ORDER = [4, 3, 2, 1];
+    const QUESTION_LAYOUTS = [
+      ["blue", "yellow", "green", "red"],
+      ["green", "red", "yellow", "blue"],
+      ["red", "blue", "green", "yellow"],
+      ["yellow", "green", "red", "blue"],
+      ["blue", "green", "red", "yellow"],
+      ["yellow", "red", "blue", "green"]
+    ];
+
+    const ENERGY_LIBRARY = {
+      blue: {
+        key: "blue",
+        label: "Bleu",
+        emoji: "🔵",
+        color: "#2f69c9",
+        adjectives: ["analytique", "précis", "méthodique"],
+        styleTone: "lucide, structurée et mesurée",
+        relationNeed: "des échanges clairs, cohérents et respectueux du fond",
+        decisionNeed: "du temps de réflexion, des faits solides et un cadre net",
+        strengths: [
+          "Capacité à clarifier un problème complexe",
+          "Sens élevé de la précision et de la qualité",
+          "Préparation méthodique avant l’action",
+          "Calme dans les situations ambiguës",
+          "Fiabilité dans le suivi des engagements"
+        ],
+        weaknesses: [
+          "Risque de suranalyser avant de décider",
+          "Tendance à corriger sans toujours rassurer",
+          "Réserve émotionnelle pouvant créer de la distance",
+          "Difficulté avec l’improvisation imprécise",
+          "Exigence parfois perçue comme froide"
+        ],
+        teamValue: [
+          "Met de l’ordre dans les sujets confus",
+          "Sécurise la qualité des livrables",
+          "Anticipe les risques et les incohérences",
+          "Documente les décisions importantes",
+          "Stabilise le rythme par une approche mesurée"
+        ],
+        communicationTips: [
+          "Arriver avec des faits, des exemples et un objectif clair",
+          "Laisser le temps de réflexion avant de conclure",
+          "Préciser les critères de réussite",
+          "Structurer le message étape par étape",
+          "Être cohérent entre parole et exécution"
+        ],
+        barriers: [
+          "Flou sur les responsabilités",
+          "Promesses vagues ou non tenues",
+          "Pression à décider sans éléments solides",
+          "Bruit relationnel qui masque le fond",
+          "Changements fréquents sans logique expliquée"
+        ],
+        blindSpots: [
+          "Sous-estimer le besoin de reconnaissance émotionnelle",
+          "Privilégier la logique au détriment du tempo collectif",
+          "Supposer que la retenue est toujours un signe d’adhésion",
+          "Négliger l’impact du ton utilisé",
+          "Confondre prudence et lenteur des autres"
+        ],
+        growth: [
+          "Verbaliser davantage son intention positive",
+          "Tester une version simple avant d’optimiser",
+          "Inviter plus tôt les parties prenantes",
+          "Faire une place explicite aux ressentis",
+          "Accepter qu’une bonne décision peut rester incomplète"
+        ],
+        environment: [
+          "Cadre stable avec rôles clairs",
+          "Temps de concentration protégé",
+          "Niveau d’exigence élevé mais réaliste",
+          "Décisions appuyées sur des données",
+          "Espace pour améliorer les méthodes"
+        ],
+        needs: [
+          "Des priorités explicites",
+          "Des standards de qualité cohérents",
+          "Une autonomie de réflexion",
+          "Des retours argumentés",
+          "Un rythme qui respecte la préparation"
+        ],
+        motivators: [
+          "Résoudre un problème difficile",
+          "Améliorer un système existant",
+          "Faire progresser la qualité",
+          "Comprendre le fond d’un sujet",
+          "Être reconnu pour sa fiabilité"
+        ],
+        managementStyle: [
+          "Cadre avec précision et méthode",
+          "Suit les indicateurs et la qualité",
+          "Prépare les décisions avant de les annoncer",
+          "Protège le temps de travail sérieux",
+          "Cherche des solutions durables plutôt que rapides"
+        ]
+      },
+      green: {
+        key: "green",
+        label: "Vert",
+        emoji: "🟢",
+        color: "#4c8a5a",
+        adjectives: ["attentif", "stable", "soutenant"],
+        styleTone: "bienveillante, stable et attentive",
+        relationNeed: "une atmosphère de confiance, de respect et de continuité",
+        decisionNeed: "de la concertation, du temps et une prise en compte des personnes",
+        strengths: [
+          "Écoute sincère et présence rassurante",
+          "Patience dans l’accompagnement du changement",
+          "Capacité à stabiliser un groupe",
+          "Loyauté et sens du collectif",
+          "Diplomatie dans les tensions"
+        ],
+        weaknesses: [
+          "Tendance à éviter les confrontations nécessaires",
+          "Difficulté à dire non quand la charge augmente",
+          "Risque de s’oublier pour préserver l’harmonie",
+          "Décisions plus lentes sous pression",
+          "Tolérance parfois excessive face aux écarts"
+        ],
+        teamValue: [
+          "Maintient la cohésion quand la pression monte",
+          "Repère les besoins non exprimés",
+          "Soutient les rythmes durables",
+          "Facilite la coopération entre profils différents",
+          "Crée un climat de confiance"
+        ],
+        communicationTips: [
+          "Commencer par établir un contact calme et respectueux",
+          "Montrer l’impact humain des décisions",
+          "Laisser un espace d’expression sans interrompre",
+          "Donner de la visibilité sur la suite",
+          "Valoriser ce qui fonctionne déjà"
+        ],
+        barriers: [
+          "Ton abrupt ou trop pressant",
+          "Conflit public imposé sans préparation",
+          "Changements soudains sans accompagnement",
+          "Compétition relationnelle permanente",
+          "Décisions déconnectées des réalités humaines"
+        ],
+        blindSpots: [
+          "Reporter une discussion difficile trop longtemps",
+          "Supposer que le silence protège toujours la relation",
+          "Ne pas montrer ses propres besoins",
+          "Sous-estimer l’urgence réelle de certains choix",
+          "Confondre consensus et clarté"
+        ],
+        growth: [
+          "Nommer plus tôt les désaccords utiles",
+          "Exprimer ses limites sans culpabilité",
+          "Prendre la parole avant que la tension n’accumule",
+          "Faire la différence entre soutien et sauvetage",
+          "Accepter qu’une relation peut rester solide après un non"
+        ],
+        environment: [
+          "Cadre humainement fiable",
+          "Relation managériale prévisible",
+          "Temps pour construire la confiance",
+          "Rythme régulier sans agitation inutile",
+          "Valeurs collectives clairement incarnées"
+        ],
+        needs: [
+          "Un climat respectueux",
+          "De la reconnaissance sincère",
+          "Des transitions expliquées",
+          "La possibilité d’aider utilement",
+          "Des décisions cohérentes avec les valeurs affichées"
+        ],
+        motivators: [
+          "Contribuer à la qualité des relations",
+          "Voir les autres progresser",
+          "Créer un environnement sûr",
+          "Aider concrètement une équipe",
+          "Rendre les changements plus humains"
+        ],
+        managementStyle: [
+          "Privilégie la continuité et l’écoute",
+          "Accompagne plus qu’il n’impose",
+          "Cherche des décisions acceptables pour le groupe",
+          "Veille à l’équilibre de charge",
+          "Maintient la stabilité lors des transitions"
+        ]
+      },
+      yellow: {
+        key: "yellow",
+        label: "Jaune",
+        emoji: "🟡",
+        color: "#dca42c",
+        adjectives: ["expressif", "créatif", "stimulant"],
+        styleTone: "ouverte, expressive et stimulante",
+        relationNeed: "du mouvement, des échanges vivants et de la reconnaissance",
+        decisionNeed: "de la latitude, des idées et un horizon inspirant",
+        strengths: [
+          "Énergie communicative et optimisme visible",
+          "Créativité spontanée dans les solutions",
+          "Capacité à relier rapidement les personnes",
+          "Aisance à donner envie d’avancer",
+          "Adaptabilité dans les environnements mouvants"
+        ],
+        weaknesses: [
+          "Risque de dispersion quand trop d’idées coexistent",
+          "Engagement pris trop vite sous l’élan",
+          "Détails opérationnels parfois oubliés",
+          "Difficulté à rester longtemps dans la routine",
+          "Parole abondante qui peut prendre la place des autres"
+        ],
+        teamValue: [
+          "Donne de l’élan dans les moments de doute",
+          "Crée du lien entre des personnes éloignées",
+          "Apporte des pistes nouvelles rapidement",
+          "Rend la communication plus accessible",
+          "Fait émerger une vision enthousiasmante"
+        ],
+        communicationTips: [
+          "Parler avec chaleur et ouverture",
+          "Montrer les possibilités plutôt que les limites d’emblée",
+          "Laisser une marge de créativité",
+          "Valoriser l’intuition et l’élan",
+          "Rendre les messages concrets et vivants"
+        ],
+        barriers: [
+          "Cadre trop rigide sans espace d’initiative",
+          "Messages froids ou uniquement procéduraux",
+          "Critique sèche qui casse l’élan",
+          "Réunions sans interaction",
+          "Routine imposée sans sens visible"
+        ],
+        blindSpots: [
+          "Sous-estimer la fatigue créée par les changements successifs",
+          "Confondre enthousiasme et accord réel",
+          "Aller plus vite que la capacité d’absorption du groupe",
+          "Négliger le suivi après une bonne idée",
+          "Minimiser les objections techniques"
+        ],
+        growth: [
+          "Fermer explicitement les boucles ouvertes",
+          "Transformer l’intuition en plan visible",
+          "Écouter jusqu’au bout les signaux de réserve",
+          "Faire des pauses avant de promettre",
+          "Choisir moins de priorités mais les tenir"
+        ],
+        environment: [
+          "Latitude relationnelle et créative",
+          "Rythme vivant sans excès bureaucratique",
+          "Possibilités de connexion et d’influence",
+          "Projets visibles avec une histoire à raconter",
+          "Droit à l’expérimentation"
+        ],
+        needs: [
+          "De la variété",
+          "Un espace d’expression",
+          "Des échanges fréquents",
+          "Une reconnaissance visible",
+          "La liberté de tester des pistes"
+        ],
+        motivators: [
+          "Lancer une idée nouvelle",
+          "Créer de l’adhésion",
+          "Vivre des interactions riches",
+          "Faire bouger les lignes",
+          "Sentir un projet inspirant"
+        ],
+        managementStyle: [
+          "Anime et fédère par l’énergie",
+          "Donne envie en racontant une perspective",
+          "Encourage l’initiative",
+          "Préfère influencer plutôt que contrôler",
+          "Apporte de la visibilité et du mouvement"
+        ]
+      },
+      red: {
+        key: "red",
+        label: "Rouge",
+        emoji: "🔴",
+        color: "#c34a2c",
+        adjectives: ["direct", "volontaire", "orienté résultats"],
+        styleTone: "directe, rapide et volontaire",
+        relationNeed: "des échanges francs, efficaces et sans détour",
+        decisionNeed: "de la marge d’action, de la vitesse et des objectifs nets",
+        strengths: [
+          "Décision rapide quand la situation l’exige",
+          "Courage face aux sujets difficiles",
+          "Sens du résultat et des priorités",
+          "Capacité à entraîner vers l’action",
+          "Clarté dans les attentes"
+        ],
+        weaknesses: [
+          "Impatience quand le rythme ralentit",
+          "Risque de brusquer sans le vouloir",
+          "Tendance à reprendre la main trop vite",
+          "Urgence installée comme mode normal",
+          "Attention limitée aux sensibilités plus discrètes"
+        ],
+        teamValue: [
+          "Fait avancer les décisions bloquées",
+          "Coupe court aux ambiguïtés inutiles",
+          "Maintient le cap sur les objectifs",
+          "Redonne de l’énergie en période d’inertie",
+          "Prend des responsabilités quand il le faut"
+        ],
+        communicationTips: [
+          "Aller à l’essentiel rapidement",
+          "Formuler une demande claire",
+          "Montrer l’effet concret attendu",
+          "Proposer des options plutôt qu’un débat infini",
+          "Respecter le temps et le rythme"
+        ],
+        barriers: [
+          "Lenteur sans justification",
+          "Discours trop abstrait sans décision",
+          "Manque de responsabilité assumée",
+          "Détours relationnels qui évitent le sujet",
+          "Indécision prolongée"
+        ],
+        blindSpots: [
+          "Sous-estimer l’effet de son intensité",
+          "Confondre vitesse et maturité de décision",
+          "Passer trop vite du constat à l’injonction",
+          "Négliger l’adhésion émotionnelle",
+          "Récompenser surtout l’urgence"
+        ],
+        growth: [
+          "Ralentir juste assez pour écouter les signaux faibles",
+          "Poser des questions avant de conclure",
+          "Distinguer priorité et précipitation",
+          "Renforcer la reconnaissance positive",
+          "Partager plus clairement la logique des arbitrages"
+        ],
+        environment: [
+          "Objectifs ambitieux et visibles",
+          "Décisions rapides quand nécessaire",
+          "Autonomie forte",
+          "Responsabilités assumées clairement",
+          "Culture de l’action plus que de l’attente"
+        ],
+        needs: [
+          "Des marges de décision",
+          "Des objectifs sans ambiguïté",
+          "Une faible inertie politique",
+          "Des interlocuteurs francs",
+          "Un terrain où agir a un effet réel"
+        ],
+        motivators: [
+          "Gagner du terrain",
+          "Atteindre un résultat mesurable",
+          "Débloquer une situation",
+          "Avoir de l’impact vite",
+          "Prendre des responsabilités réelles"
+        ],
+        managementStyle: [
+          "Décide et arbitre rapidement",
+          "Fixe un cap exigeant",
+          "Distribue la responsabilité de manière directe",
+          "Valorise la réactivité",
+          "Préfère l’action observable aux intentions"
+        ]
+      }
+    };
+
+    const ARCHETYPE_LIBRARY = {
+      "blue-red": {
+        key: "blue-red",
+        label: "Réformateur / Directeur",
+        shortLabel: "Réformateur",
+        segmentIndex: 0,
+        fill: "#d7e0ef",
+        summary: "Allie rigueur, standards élevés et sens du résultat. Cherche à rendre les choses plus solides, plus claires et plus fiables.",
+        publicStyle: "cherche à structurer le réel tout en gardant le cap sur l’exécution.",
+        relations: "crée la confiance par la cohérence, la préparation et la tenue des engagements.",
+        decisions: "privilégie les faits, puis tranche avec fermeté lorsque le cadre est clarifié.",
+        team: "apporte structure, exigence et discipline de mise en œuvre.",
+        communication: "préfère des échanges préparés, argumentés et orientés action.",
+        barriers: "se crispe face à l’improvisation floue, au manque de rigueur et aux détours inutiles.",
+        blindSpots: "peut oublier l’impact émotionnel d’une exigence pourtant juste sur le fond.",
+        growth: "gagne en influence lorsqu’il associe davantage les autres au lieu de ne corriger qu’après coup.",
+        environment: "donne le meilleur dans un contexte exigeant, lisible et mesurable.",
+        needs: "a besoin d’autonomie, de standards stables et de responsabilités nettes.",
+        motivation: "est stimulé par la résolution de problèmes difficiles et l’amélioration réelle des systèmes.",
+        management: "manage avec précision, sens des priorités et volonté de fiabiliser."
+      },
+      "red-blue": {
+        key: "red-blue",
+        label: "Directeur / Réformateur",
+        shortLabel: "Directeur",
+        segmentIndex: 1,
+        fill: "#ead9d4",
+        summary: "Allie vitesse de décision, contrôle de trajectoire et goût pour les solutions robustes. Cherche l’efficacité durable plutôt que le simple mouvement.",
+        publicStyle: "avance vite, clarifie les responsabilités et pousse les sujets jusqu’à une conclusion exploitable.",
+        relations: "accorde de la valeur aux interlocuteurs qui vont droit au but sans sacrifier la qualité du raisonnement.",
+        decisions: "arbitre rapidement après une lecture technique ou logique suffisante.",
+        team: "apporte cadence, direction et capacité à remettre un collectif en mouvement.",
+        communication: "préfère des échanges courts, francs et structurés.",
+        barriers: "supporte mal les lenteurs sans raison, l’indécision et les imprécisions prolongées.",
+        blindSpots: "peut donner le sentiment que le résultat prime toujours sur le vécu.",
+        growth: "renforce son impact lorsqu’il ralentit assez pour expliquer ses arbitrages.",
+        environment: "s’exprime bien dans des contextes à fort enjeu où l’action doit rester maîtrisée.",
+        needs: "a besoin d’espace de décision, de cap clair et d’interlocuteurs solides.",
+        motivation: "est stimulé par le défi, la maîtrise et la progression visible.",
+        management: "manage en donnant une direction nette et en exigeant un niveau de préparation élevé."
+      },
+      "red-yellow": {
+        key: "red-yellow",
+        label: "Directeur / Motivateur",
+        shortLabel: "Motivateur",
+        segmentIndex: 2,
+        fill: "#f0dfbf",
+        summary: "Combine sens du résultat, énergie relationnelle et capacité à entraîner. Cherche à faire bouger les lignes vite, avec un fort impact visible.",
+        publicStyle: "met rapidement en mouvement, parle avec intensité et assume la responsabilité du cap.",
+        relations: "crée l’adhésion par l’énergie, la présence et l’orientation vers l’action.",
+        decisions: "décide vite en misant sur l’élan, la conviction et l’opportunité.",
+        team: "apporte momentum, visibilité et capacité à sortir un groupe de l’attentisme.",
+        communication: "préfère des échanges francs, vivants et orientés solution.",
+        barriers: "se lasse des débats interminables, du pessimisme ou des cadres trop figés.",
+        blindSpots: "peut aller plus vite que la capacité d’absorption de l’équipe.",
+        growth: "gagne en puissance lorsqu’il ferme davantage les boucles ouvertes.",
+        environment: "donne le meilleur dans des environnements rapides, visibles et évolutifs.",
+        needs: "a besoin d’autonomie, de latitude et de projets stimulants.",
+        motivation: "est nourri par l’impact, le défi et la perspective de faire grandir un projet.",
+        management: "manage par l’élan, la clarté de cap et la pression positive sur l’action."
+      },
+      "yellow-red": {
+        key: "yellow-red",
+        label: "Motivateur / Inspirateur",
+        shortLabel: "Inspirateur",
+        segmentIndex: 3,
+        fill: "#f4e8b8",
+        summary: "Mélange enthousiasme, influence et orientation vers l’action. Cherche à inspirer tout en gardant un fort désir d’avancer vite.",
+        publicStyle: "ouvre des possibilités, met du relief dans les idées et entraîne par la chaleur relationnelle.",
+        relations: "s’appuie sur la connexion humaine et la capacité à rendre un projet désirable.",
+        decisions: "préfère les choix qui permettent de tester, d’apprendre et de garder du mouvement.",
+        team: "apporte élan, imagination et capacité à mobiliser un collectif autour d’une perspective.",
+        communication: "préfère les échanges vivants, directs et générateurs d’énergie.",
+        barriers: "supporte mal l’immobilisme, la routine froide et les critiques qui coupent l’élan.",
+        blindSpots: "peut promettre plus vite que la capacité de suivi.",
+        growth: "progresse lorsqu’il traduit ses intuitions en engagements concrets et tenables.",
+        environment: "s’épanouit dans des contextes ouverts, humains et porteurs de nouveauté.",
+        needs: "a besoin de relation, d’autonomie et d’une scène d’expression.",
+        motivation: "est stimulé par la nouveauté, l’influence et les défis enthousiasmants.",
+        management: "manage en embarquant les autres, puis en accélérant sur les opportunités."
+      },
+      "yellow-green": {
+        key: "yellow-green",
+        label: "Inspirateur / Conseiller",
+        shortLabel: "Conseiller",
+        segmentIndex: 4,
+        fill: "#dfe8c7",
+        summary: "Allie chaleur relationnelle, imagination et souci des personnes. Cherche à créer de l’adhésion sans perdre la qualité du lien.",
+        publicStyle: "installe facilement une ambiance accueillante et rend les échanges plus fluides.",
+        relations: "met l’accent sur la connexion, l’encouragement et la confiance réciproque.",
+        decisions: "préfère les choix compatibles avec les personnes et le sens collectif.",
+        team: "apporte lien, souffle positif et capacité à créer des ponts entre des sensibilités variées.",
+        communication: "préfère les échanges ouverts, vivants et respectueux du ressenti.",
+        barriers: "supporte mal la dureté gratuite, le cynisme ou le manque d’attention aux personnes.",
+        blindSpots: "peut éviter de poser un cadre plus ferme quand cela devient nécessaire.",
+        growth: "gagne en solidité lorsqu’il ose davantage les arbitrages explicites.",
+        environment: "fonctionne bien dans des contextes collaboratifs, humains et inspirants.",
+        needs: "a besoin de confiance, de dialogue et de latitude relationnelle.",
+        motivation: "est nourri par la possibilité d’aider, d’inspirer et de relier.",
+        management: "manage par la présence, l’encouragement et la création d’un climat mobilisateur."
+      },
+      "green-yellow": {
+        key: "green-yellow",
+        label: "Conseiller / Supporteur",
+        shortLabel: "Supporteur",
+        segmentIndex: 5,
+        fill: "#d4e4cf",
+        summary: "Allie stabilité, patience et expression chaleureuse. Cherche à soutenir durablement tout en gardant un lien positif et vivant.",
+        publicStyle: "privilégie une présence rassurante, accessible et tournée vers le collectif.",
+        relations: "bâtit la confiance par l’écoute, la constance et la disponibilité.",
+        decisions: "avance lorsque les personnes sont respectées et que le cadre reste humainement tenable.",
+        team: "apporte cohésion, soutien et régulation émotionnelle dans les périodes agitées.",
+        communication: "préfère des échanges calmes, concrets et bienveillants.",
+        barriers: "supporte mal la brutalité, la compétition relationnelle ou les injonctions contradictoires.",
+        blindSpots: "peut garder trop longtemps des réserves pour protéger l’atmosphère.",
+        growth: "gagne en impact lorsqu’il formule plus tôt ce qui n’est pas acceptable.",
+        environment: "donne le meilleur dans un contexte stable, relationnel et respectueux.",
+        needs: "a besoin de repères fiables, de reconnaissance et de temps pour accompagner.",
+        motivation: "est stimulé par le sentiment d’être utile et de contribuer à une dynamique saine.",
+        management: "manage en sécurisant, en encourageant et en gardant le collectif aligné."
+      },
+      "green-blue": {
+        key: "green-blue",
+        label: "Supporteur / Coordinateur",
+        shortLabel: "Coordinateur",
+        segmentIndex: 6,
+        fill: "#d3dfe0",
+        summary: "Allie calme, sens du collectif et goût pour l’organisation. Cherche à rendre les choses fiables sans perturber inutilement les personnes.",
+        publicStyle: "avance avec constance, construit des repères et sécurise les interfaces.",
+        relations: "accorde de la valeur à la loyauté, à l’écoute et à la cohérence des comportements.",
+        decisions: "préfère les choix réfléchis, soutenables et compatibles avec le terrain.",
+        team: "apporte stabilité, coordination et continuité dans la durée.",
+        communication: "préfère des échanges respectueux, structurés et prévisibles.",
+        barriers: "supporte mal les à-coups, l’agitation permanente et l’absence de méthode.",
+        blindSpots: "peut surprotéger la stabilité au détriment de décisions plus franches.",
+        growth: "progresse lorsqu’il accepte d’exposer plus explicitement ses critères de choix.",
+        environment: "fonctionne bien dans des contextes organisés, fiables et relationnellement sûrs.",
+        needs: "a besoin de visibilité, de calme et d’une coopération loyale.",
+        motivation: "est nourri par la qualité du service rendu et la fluidité du collectif.",
+        management: "manage en coordonnant avec soin et en construisant des routines utiles."
+      },
+      "blue-green": {
+        key: "blue-green",
+        label: "Coordinateur / Observateur",
+        shortLabel: "Observateur",
+        segmentIndex: 7,
+        fill: "#d6e2ef",
+        summary: "Allie recul analytique, prudence et sens humain discret. Cherche à comprendre avant d’agir, tout en préservant la qualité du lien.",
+        publicStyle: "observe, structure et avance avec mesure lorsque les conditions sont réunies.",
+        relations: "préfère les liens fiables, sobres et cohérents sur la durée.",
+        decisions: "privilégie une lecture fine du contexte avant de s’engager.",
+        team: "apporte discernement, constance et sens de la qualité relationnelle.",
+        communication: "préfère des échanges posés, argumentés et respectueux du rythme de chacun.",
+        barriers: "supporte mal la pression, le bruit et les changements insuffisamment pensés.",
+        blindSpots: "peut se retirer trop tôt de l’expression visible alors que sa lecture serait utile.",
+        growth: "gagne en présence lorsqu’il partage plus rapidement ses analyses et ses limites.",
+        environment: "donne le meilleur dans un cadre calme, solide et intelligible.",
+        needs: "a besoin de confiance, de temps de réflexion et d’un environnement stable.",
+        motivation: "est stimulé par la compréhension fine, la qualité et le service bien fait.",
+        management: "manage avec retenue, sens de la méthode et attention portée aux personnes."
+      }
+    };
+
+    const PUBLIC_WORD_POOLS = {
+      blue: ["Analytique", "Méthodique", "Rigoureux", "Précis", "Structuré", "Réfléchi", "Prudent", "Formel", "Concentré", "Factuel", "Logique", "Organisé", "Mesuré", "Discipliné", "Fiable", "Observateur", "Technique", "Contrôlé"],
+      green: ["Attentionné", "Patient", "Calme", "Coopératif", "Loyal", "Diplomate", "Bienveillant", "Stable", "Disponible", "Chaleureux", "Prévenant", "Soutenant", "Constant", "Empathique", "Serviable", "À l’écoute", "Tolérant", "Apaisant"],
+      yellow: ["Enthousiaste", "Expressif", "Créatif", "Sociable", "Spontané", "Inspirant", "Optimiste", "Vivant", "Curieux", "Imaginatif", "Ouvert", "Bavard", "Dynamique", "Aventurier", "Rayonnant", "Flexible", "Amusant", "Chaleureux"],
+      red: ["Décidé", "Direct", "Exigeant", "Rapide", "Ambitieux", "Ferme", "Courageux", "Compétitif", "Orienté résultats", "Tranchant", "Entrepreneur", "Impatient", "Assertif", "Volontaire", "Audacieux", "Persuasif", "Énergique", "Résolu"]
+    };
+
+    const PRIVATE_WORD_POOLS = {
+      blue: ["Réservé", "Critique", "Perfectionniste", "Vigilant", "Distant", "Exigeant sur la qualité", "Sceptique", "Cérébral", "Contrôlé", "Minutieux", "Silencieux", "Sélectif", "Rationnel", "Stable", "Prévisible", "Discret", "Formel", "Inflexible"],
+      green: ["Protecteur", "Conciliant", "Modeste", "Patient", "Fidèle", "Sensible", "Rassurant", "Effacé", "Compréhensif", "Accommodant", "Constant", "Pacifique", "Tolérant", "Attaché aux autres", "Prévisible", "Attentionné", "Soutien discret", "Précautionneux"],
+      yellow: ["Impulsif", "Volubile", "Rêveur", "Théâtral", "Enjoué", "Improvisateur", "Distrait", "Ludique", "Expressif", "Intuitif", "Séduisant", "Affectif", "Changeant", "Curieux", "Inspiré", "Bouillonnant", "Léger", "Extraverti"],
+      red: ["Dur", "Pressant", "Dominant", "Intransigeant", "Urgent", "Confrontant", "Combatif", "Expéditif", "Autoritaire", "Franc", "Tranché", "Contrôlant", "Insistant", "Réactif", "Implacable", "Décisif", "Impérieux", "Brusque"]
+    };
+
+    const ARCHETYPE_SEQUENCE = [
+      "blue-red",
+      "red-blue",
+      "red-yellow",
+      "yellow-red",
+      "yellow-green",
+      "green-yellow",
+      "green-blue",
+      "blue-green"
+    ];
+
+    const ARCHETYPE_WHEEL_STYLES = {
+      "blue-red": { bandFill: "#7764c4", labelColor: "#ffffff" },
+      "red-blue": { bandFill: "#e53d54", labelColor: "#ffffff" },
+      "red-yellow": { bandFill: "#ff8e34", labelColor: "#1f1a14" },
+      "yellow-red": { bandFill: "#f6c550", labelColor: "#1f1a14" },
+      "yellow-green": { bandFill: "#b8d43b", labelColor: "#1f1a14" },
+      "green-yellow": { bandFill: "#58a14d", labelColor: "#ffffff" },
+      "green-blue": { bandFill: "#2f9faa", labelColor: "#1f1a14" },
+      "blue-green": { bandFill: "#1f81cf", labelColor: "#ffffff" }
+    };
+
+    const WHEEL_LAYOUT = {
+      center: 200,
+      sectorWidth: 45,
+      sectorHalfWidth: 22.5,
+      slotAngleWidth: 15,
+      hubColorRadius: 22,
+      hubShellRadius: 36,
+      ringBounds: [44, 84, 124, 164],
+      ringCenters: [64, 104, 144],
+      outerRadius: 164,
+      bandInnerRadius: 170,
+      bandOuterRadius: 198,
+      labelRadius: 184
+    };
+
+    // Each block contains 18 word sets with one option mapped to each color.
+    function buildQuestionBlock(block, startId, pools) {
+      return Array.from({ length: 18 }, (_, index) => {
+        const layout = QUESTION_LAYOUTS[index % QUESTION_LAYOUTS.length];
+        return {
+          id: startId + index,
+          block,
+          options: layout.map((color) => ({
+            label: pools[color][index],
+            color
+          }))
+        };
+      });
+    }
+
+    function buildQuestionBank() {
+      return [
+        ...buildQuestionBlock("conscious", 1, PUBLIC_WORD_POOLS),
+        ...buildQuestionBlock("lessConscious", 19, PRIVATE_WORD_POOLS)
+      ];
+    }
+
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function toSentence(items) {
+      if (items.length === 0) {
+        return "";
+      }
+      if (items.length === 1) {
+        return items[0];
+      }
+      if (items.length === 2) {
+        return `${items[0]} et ${items[1]}`;
+      }
+      return `${items.slice(0, -1).join(", ")} et ${items[items.length - 1]}`;
+    }
+
+    function mergeUnique(lists, limit) {
+      const seen = new Set();
+      const merged = [];
+      lists.flat().forEach((item) => {
+        if (!seen.has(item) && merged.length < limit) {
+          seen.add(item);
+          merged.push(item);
+        }
+      });
+      return merged;
+    }
+
+    function formatDateFr(date) {
+      return new Intl.DateTimeFormat("fr-FR", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric"
+      }).format(date);
+    }
+
+    function roundPercent(value) {
+      return Number(value.toFixed(1));
+    }
+
+    function hasFiniteNumber(value) {
+      return Number.isFinite(Number(value));
+    }
+
+    function markerTextColor(colorKey) {
+      return colorKey === "yellow" ? "#3b2d0d" : "#ffffff";
+    }
+
+    function fileNameToLabel(fileName) {
+      const stem = String(fileName || "")
+        .replace(/\.[^.]+$/, "")
+        .replace(/[-_]+/g, " ")
+        .trim();
+
+      return stem || "Profil importé";
+    }
+
+    function normalizePercentages(percentages) {
+      return Object.fromEntries(
+        ENERGY_ORDER.map((color) => [color, Number(percentages[color])])
+      );
+    }
+
+    function isValidImportedScoreProfile(profile) {
+      return Boolean(
+        profile &&
+        typeof profile.dominant === "string" &&
+        ENERGY_LIBRARY[profile.dominant] &&
+        typeof profile.secondary === "string" &&
+        ENERGY_LIBRARY[profile.secondary] &&
+        profile.archetype &&
+        typeof profile.archetype.label === "string" &&
+        hasFiniteNumber(profile.archetype.position) &&
+        profile.percentages &&
+        ENERGY_ORDER.every((color) => hasFiniteNumber(profile.percentages[color]))
+      );
+    }
+
+    function normalizeImportedScoreProfile(profile) {
+      return {
+        ...profile,
+        percentages: normalizePercentages(profile.percentages),
+        archetype: {
+          ...profile.archetype,
+          position: Number(profile.archetype.position)
+        }
+      };
+    }
+
+    function normalizeImportedPayload(payload, fileName) {
+      if (!payload || typeof payload !== "object") {
+        throw new Error("contenu JSON non exploitable");
+      }
+
+      if (payload.appName && payload.appName !== APP_NAME) {
+        throw new Error("fichier non reconnu pour cette application");
+      }
+
+      const scores = payload.scores || {};
+      if (!isValidImportedScoreProfile(scores.conscious) || !isValidImportedScoreProfile(scores.lessConscious)) {
+        throw new Error("scores manquants ou incomplets");
+      }
+
+      const respondent = payload.respondent || {};
+      const fullName = (
+        typeof respondent.fullName === "string" && respondent.fullName.trim()
+      ) || `${respondent.firstName || ""} ${respondent.lastName || ""}`.trim() || fileNameToLabel(fileName);
+
+      const conscious = normalizeImportedScoreProfile(scores.conscious);
+      const lessConscious = normalizeImportedScoreProfile(scores.lessConscious);
+      const shift = scores.shift && hasFiniteNumber(scores.shift.value)
+        ? {
+            ...scores.shift,
+            value: Number(scores.shift.value),
+            delta: hasFiniteNumber(scores.shift.delta) ? Number(scores.shift.delta) : scores.shift.delta
+          }
+        : resolveShift(conscious.percentages, lessConscious.percentages);
+      const generatedAt = typeof payload.generatedAt === "string" ? payload.generatedAt : new Date().toISOString();
+
+      return {
+        id: `${generatedAt}-${fullName}-${conscious.archetype.position}-${lessConscious.archetype.position}`,
+        fileName,
+        fullName,
+        generatedAt,
+        conscious,
+        lessConscious,
+        shift
+      };
+    }
+
+    function describeArc(cx, cy, innerRadius, outerRadius, startAngle, endAngle) {
+      const startOuter = polarToCartesian(cx, cy, outerRadius, endAngle);
+      const endOuter = polarToCartesian(cx, cy, outerRadius, startAngle);
+      const startInner = polarToCartesian(cx, cy, innerRadius, startAngle);
+      const endInner = polarToCartesian(cx, cy, innerRadius, endAngle);
+      const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+
+      return [
+        "M", startOuter.x, startOuter.y,
+        "A", outerRadius, outerRadius, 0, largeArcFlag, 0, endOuter.x, endOuter.y,
+        "L", startInner.x, startInner.y,
+        "A", innerRadius, innerRadius, 0, largeArcFlag, 1, endInner.x, endInner.y,
+        "Z"
+      ].join(" ");
+    }
+
+    function describeOpenArc(cx, cy, radius, startAngle, endAngle, reverse = false) {
+      const arcStart = reverse ? endAngle : startAngle;
+      const arcEnd = reverse ? startAngle : endAngle;
+      const start = polarToCartesian(cx, cy, radius, arcStart);
+      const end = polarToCartesian(cx, cy, radius, arcEnd);
+      const largeArcFlag = Math.abs(arcEnd - arcStart) > 180 ? 1 : 0;
+      const sweepFlag = reverse ? 0 : 1;
+
+      return [
+        "M", start.x, start.y,
+        "A", radius, radius, 0, largeArcFlag, sweepFlag, end.x, end.y
+      ].join(" ");
+    }
+
+    function describePieSlice(cx, cy, radius, startAngle, endAngle) {
+      const start = polarToCartesian(cx, cy, radius, startAngle);
+      const end = polarToCartesian(cx, cy, radius, endAngle);
+      const delta = (endAngle - startAngle + 360) % 360;
+      const largeArcFlag = delta > 180 ? 1 : 0;
+
+      return [
+        "M", cx, cy,
+        "L", start.x, start.y,
+        "A", radius, radius, 0, largeArcFlag, 1, end.x, end.y,
+        "Z"
+      ].join(" ");
+    }
+
+    function polarToCartesian(cx, cy, radius, angleInDegrees) {
+      const radians = (angleInDegrees - 90) * Math.PI / 180;
+      return {
+        x: cx + radius * Math.cos(radians),
+        y: cy + radius * Math.sin(radians)
+      };
+    }
+
+    function getWheelSegmentAngles(segmentIndex) {
+      const centerAngle = segmentIndex * WHEEL_LAYOUT.sectorWidth;
+      return {
+        centerAngle,
+        startAngle: centerAngle - WHEEL_LAYOUT.sectorHalfWidth,
+        endAngle: centerAngle + WHEEL_LAYOUT.sectorHalfWidth
+      };
+    }
+
+    function buildPolarLine(angle, innerRadius, outerRadius) {
+      const start = polarToCartesian(WHEEL_LAYOUT.center, WHEEL_LAYOUT.center, innerRadius, angle);
+      const end = polarToCartesian(WHEEL_LAYOUT.center, WHEEL_LAYOUT.center, outerRadius, angle);
+      return {
+        x1: start.x,
+        y1: start.y,
+        x2: end.x,
+        y2: end.y
+      };
+    }
+
+    function getWheelPositionSlot(position) {
+      const normalizedPosition = clamp(Math.round(Number(position) || 1), 1, 72) - 1;
+      const segmentIndex = Math.floor(normalizedPosition / 9);
+      const slotIndex = normalizedPosition % 9;
+      const ringIndex = Math.floor(slotIndex / 3);
+      const columnIndex = slotIndex % 3;
+      const segmentAngles = getWheelSegmentAngles(segmentIndex);
+
+      return {
+        segmentIndex,
+        ringIndex,
+        columnIndex,
+        slotIndex,
+        segmentAngles
+      };
+    }
+
+    function positionToPoint(position) {
+      const slot = getWheelPositionSlot(position);
+      const angle = slot.segmentAngles.startAngle + 7.5 + slot.columnIndex * WHEEL_LAYOUT.slotAngleWidth;
+      const radius = WHEEL_LAYOUT.ringCenters[slot.ringIndex];
+
+      return polarToCartesian(WHEEL_LAYOUT.center, WHEEL_LAYOUT.center, radius, angle);
+    }
+
+    function buildCompassSlices(point, radius, opacity = 1) {
+      return [
+        {
+          key: "blue",
+          path: describePieSlice(point.x, point.y, radius, 270, 360),
+          fill: ENERGY_LIBRARY.blue.color,
+          opacity
+        },
+        {
+          key: "red",
+          path: describePieSlice(point.x, point.y, radius, 0, 90),
+          fill: ENERGY_LIBRARY.red.color,
+          opacity
+        },
+        {
+          key: "yellow",
+          path: describePieSlice(point.x, point.y, radius, 90, 180),
+          fill: ENERGY_LIBRARY.yellow.color,
+          opacity
+        },
+        {
+          key: "green",
+          path: describePieSlice(point.x, point.y, radius, 180, 270),
+          fill: ENERGY_LIBRARY.green.color,
+          opacity
+        }
+      ];
+    }
+
+    function buildWheelBaseGeometry() {
+      const segments = ARCHETYPE_SEQUENCE.map((key, index) => {
+        const angles = getWheelSegmentAngles(index);
+        const wheelStyle = ARCHETYPE_WHEEL_STYLES[key];
+        const reverseLabel = angles.centerAngle > 90 && angles.centerAngle < 270;
+
+        return {
+          key,
+          shortLabel: ARCHETYPE_LIBRARY[key].shortLabel.toUpperCase(),
+          fullLabel: ARCHETYPE_LIBRARY[key].label,
+          bandFill: wheelStyle.bandFill,
+          labelColor: wheelStyle.labelColor,
+          bandPath: describeArc(
+            WHEEL_LAYOUT.center,
+            WHEEL_LAYOUT.center,
+            WHEEL_LAYOUT.bandInnerRadius,
+            WHEEL_LAYOUT.bandOuterRadius,
+            angles.startAngle + 0.8,
+            angles.endAngle - 0.8
+          ),
+          labelPath: describeOpenArc(
+            WHEEL_LAYOUT.center,
+            WHEEL_LAYOUT.center,
+            WHEEL_LAYOUT.labelRadius,
+            angles.startAngle + 2,
+            angles.endAngle - 2,
+            reverseLabel
+          ),
+          centerAngle: angles.centerAngle,
+          startAngle: angles.startAngle,
+          endAngle: angles.endAngle
+        };
+      });
+
+      const cells = [];
+      const positionLabels = [];
+      for (let position = 1; position <= 72; position += 1) {
+        const slot = getWheelPositionSlot(position);
+        const startAngle = slot.segmentAngles.startAngle + slot.columnIndex * WHEEL_LAYOUT.slotAngleWidth;
+        const endAngle = startAngle + WHEEL_LAYOUT.slotAngleWidth;
+        const innerRadius = WHEEL_LAYOUT.ringBounds[slot.ringIndex];
+        const outerRadius = WHEEL_LAYOUT.ringBounds[slot.ringIndex + 1];
+        const point = positionToPoint(position);
+
+        cells.push({
+          key: `cell-${position}`,
+          path: describeArc(
+            WHEEL_LAYOUT.center,
+            WHEEL_LAYOUT.center,
+            innerRadius,
+            outerRadius,
+            startAngle + 0.5,
+            endAngle - 0.5
+          ),
+          fill: (slot.segmentIndex + slot.ringIndex + slot.columnIndex) % 2 === 0 ? "#f4f5f7" : "#d6dae0"
+        });
+
+        positionLabels.push({
+          key: `position-${position}`,
+          position,
+          x: point.x,
+          y: point.y
+        });
+      }
+
+      const segmentLines = [];
+      const subdivisionLines = [];
+      const guideLines = [];
+      for (let segmentIndex = 0; segmentIndex < 8; segmentIndex += 1) {
+        const angles = getWheelSegmentAngles(segmentIndex);
+        segmentLines.push({
+          key: `segment-line-${segmentIndex}`,
+          ...buildPolarLine(angles.startAngle, WHEEL_LAYOUT.hubShellRadius, WHEEL_LAYOUT.outerRadius)
+        });
+
+        [angles.startAngle + 15, angles.startAngle + 30].forEach((angle, subdivisionIndex) => {
+          subdivisionLines.push({
+            key: `subdivision-${segmentIndex}-${subdivisionIndex}`,
+            ...buildPolarLine(angle, WHEEL_LAYOUT.hubShellRadius, WHEEL_LAYOUT.outerRadius)
+          });
+        });
+
+        guideLines.push({
+          key: `guide-${segmentIndex}`,
+          ...buildPolarLine(angles.centerAngle, WHEEL_LAYOUT.hubShellRadius, WHEEL_LAYOUT.outerRadius)
+        });
+      }
+
+      const hubCrossLines = [
+        {
+          key: "hub-cross-horizontal",
+          x1: WHEEL_LAYOUT.center - WHEEL_LAYOUT.hubColorRadius,
+          y1: WHEEL_LAYOUT.center,
+          x2: WHEEL_LAYOUT.center + WHEEL_LAYOUT.hubColorRadius,
+          y2: WHEEL_LAYOUT.center
+        },
+        {
+          key: "hub-cross-vertical",
+          x1: WHEEL_LAYOUT.center,
+          y1: WHEEL_LAYOUT.center - WHEEL_LAYOUT.hubColorRadius,
+          x2: WHEEL_LAYOUT.center,
+          y2: WHEEL_LAYOUT.center + WHEEL_LAYOUT.hubColorRadius
+        }
+      ];
+
+      return {
+        center: WHEEL_LAYOUT.center,
+        outerRadius: WHEEL_LAYOUT.outerRadius,
+        hubShellRadius: WHEEL_LAYOUT.hubShellRadius,
+        hubColorRadius: WHEEL_LAYOUT.hubColorRadius,
+        ringCircles: [...WHEEL_LAYOUT.ringBounds],
+        segments,
+        cells,
+        positionLabels,
+        segmentLines,
+        subdivisionLines,
+        guideLines,
+        hubSlices: buildCompassSlices({ x: WHEEL_LAYOUT.center, y: WHEEL_LAYOUT.center }, WHEEL_LAYOUT.hubColorRadius),
+        hubCrossLines
+      };
+    }
+
+    const WHEEL_BASE = buildWheelBaseGeometry();
+
+    function spreadPoint(point, index, total) {
+      if (total <= 1) {
+        return point;
+      }
+
+      const orbitRadius = total <= 3 ? 6 : total <= 6 ? 10 : 13;
+      return polarToCartesian(point.x, point.y, orbitRadius, (index / total) * 360);
+    }
+
+    function buildImportedWheelMarkers(reports, block) {
+      const groupedByPosition = new Map();
+
+      reports.forEach((report, reportIndex) => {
+        const profile = report[block];
+        const position = Number(profile.archetype.position);
+        const items = groupedByPosition.get(position) || [];
+        items.push({ report, reportIndex, profile });
+        groupedByPosition.set(position, items);
+      });
+
+      const markers = [];
+      groupedByPosition.forEach((items, position) => {
+        const basePoint = positionToPoint(position);
+
+        items.forEach((item, itemIndex) => {
+          const point = spreadPoint(basePoint, itemIndex, items.length);
+          markers.push({
+            key: `${item.report.id}-${block}`,
+            index: item.reportIndex + 1,
+            x: point.x,
+            y: point.y,
+            color: ENERGY_LIBRARY[item.profile.dominant].color,
+            labelColor: markerTextColor(item.profile.dominant),
+            title: `${item.report.fullName} · ${item.profile.archetype.label} · position ${item.profile.archetype.position}`
+          });
+        });
+      });
+
+      return markers.sort((left, right) => left.index - right.index);
+    }
+
+    function resolveMostCommonArchetype(reports, block) {
+      if (reports.length === 0) {
+        return null;
+      }
+
+      const counts = new Map();
+      reports.forEach((report) => {
+        const label = report[block].archetype.label;
+        counts.set(label, (counts.get(label) || 0) + 1);
+      });
+
+      let bestLabel = null;
+      let bestCount = 0;
+      counts.forEach((count, label) => {
+        if (count > bestCount) {
+          bestLabel = label;
+          bestCount = count;
+        }
+      });
+
+      return bestLabel ? { label: bestLabel, count: bestCount } : null;
+    }
+
+    function resolveBlockScores(questionBank, answers, block) {
+      const raw = { blue: 0, green: 0, yellow: 0, red: 0 };
+      const blockQuestions = questionBank.filter((question) => question.block === block);
+
+      blockQuestions.forEach((question) => {
+        const ranks = answers[question.id];
+        question.options.forEach((option, optionIndex) => {
+          raw[option.color] += ranks[optionIndex];
+        });
+      });
+
+      const total = Object.values(raw).reduce((sum, value) => sum + value, 0);
+      const percentages = Object.fromEntries(
+        ENERGY_ORDER.map((color) => [color, roundPercent((raw[color] / total) * 100)])
+      );
+
+      const orderedColors = [...ENERGY_ORDER].sort((left, right) => {
+        if (percentages[right] === percentages[left]) {
+          return ENERGY_ORDER.indexOf(left) - ENERGY_ORDER.indexOf(right);
+        }
+        return percentages[right] - percentages[left];
+      });
+
+      const dominant = orderedColors[0];
+      const secondary = orderedColors[1];
+      const tertiary = orderedColors[2];
+      const archetype = resolveArchetype(percentages, dominant, secondary, tertiary);
+
+      return {
+        raw,
+        percentages,
+        dominant,
+        secondary,
+        tertiary,
+        archetype
+      };
+    }
+
+    // The wheel position is refined inside each archetype segment from the clarity of the dominant pair.
+    function resolveArchetype(percentages, dominant, secondary, tertiary) {
+      const key = `${dominant}-${secondary}`;
+      const base = ARCHETYPE_LIBRARY[key];
+      const pairRatio = percentages[dominant] / Math.max(percentages[secondary], 0.1);
+      const dominance = clamp((pairRatio - 1) / 0.85, 0, 1);
+      const clarity = clamp((percentages[secondary] - percentages[tertiary]) / 12, 0, 1);
+      const slot = clamp(Math.round(((dominance + clarity) / 2) * 8) + 1, 1, 9);
+      const position = base.segmentIndex * 9 + slot;
+
+      return {
+        ...base,
+        position
+      };
+    }
+
+    function resolveShift(consciousPercentages, lessConsciousPercentages) {
+      const shiftValue = roundPercent(
+        ENERGY_ORDER.reduce((sum, color) => {
+          return sum + Math.abs(consciousPercentages[color] - lessConsciousPercentages[color]);
+        }, 0) / 2
+      );
+
+      const publicOuter = consciousPercentages.red + consciousPercentages.yellow;
+      const privateOuter = lessConsciousPercentages.red + lessConsciousPercentages.yellow;
+      const delta = roundPercent(privateOuter - publicOuter);
+
+      if (delta > 2) {
+        return {
+          value: shiftValue,
+          delta,
+          arrow: "↗",
+          label: "Votre dynamique moins consciente devient plus expressive et tournée vers l’extérieur.",
+          description: "En situation relâchée ou sous tension, l’énergie d’action et de visibilité prend davantage de place."
+        };
+      }
+
+      if (delta < -2) {
+        return {
+          value: shiftValue,
+          delta,
+          arrow: "↙",
+          label: "Votre dynamique moins consciente devient plus retenue et intériorisée.",
+          description: "Lorsque le contrôle baisse, l’analyse et la préservation du lien prennent davantage de place."
+        };
+      }
+
+      return {
+        value: shiftValue,
+        delta,
+        arrow: "→",
+        label: "Votre équilibre global reste relativement stable entre les deux registres.",
+        description: "Le style visible et la dynamique plus privée restent proches, avec des déplacements limités."
+      };
+    }
+
+    function getOppositeArchetype(archetypeKey) {
+      const currentIndex = ARCHETYPE_SEQUENCE.indexOf(archetypeKey);
+      const oppositeIndex = (currentIndex + 4) % ARCHETYPE_SEQUENCE.length;
+      return ARCHETYPE_LIBRARY[ARCHETYPE_SEQUENCE[oppositeIndex]];
+    }
+
+    function buildSectionList(report, fullName) {
+      const conscious = report.conscious;
+      const privateProfile = report.lessConscious;
+      const consciousDominant = ENERGY_LIBRARY[conscious.dominant];
+      const consciousSecondary = ENERGY_LIBRARY[conscious.secondary];
+      const privateDominant = ENERGY_LIBRARY[privateProfile.dominant];
+      const privateSecondary = ENERGY_LIBRARY[privateProfile.secondary];
+      const opposite = report.opposite;
+      const oppositeDominant = ENERGY_LIBRARY[opposite.key.split("-")[0]];
+      const oppositeSecondary = ENERGY_LIBRARY[opposite.key.split("-")[1]];
+
+      const strengths = mergeUnique(
+        [consciousDominant.strengths, consciousSecondary.strengths],
+        10
+      );
+      const weaknesses = mergeUnique(
+        [consciousDominant.weaknesses, consciousSecondary.weaknesses],
+        10
+      );
+      const teamValue = mergeUnique(
+        [consciousDominant.teamValue, consciousSecondary.teamValue],
+        8
+      );
+      const communicationTips = mergeUnique(
+        [consciousDominant.communicationTips, consciousSecondary.communicationTips],
+        8
+      );
+      const barriers = mergeUnique(
+        [consciousDominant.barriers, consciousSecondary.barriers],
+        8
+      );
+      const blindSpots = mergeUnique(
+        [consciousDominant.blindSpots, consciousSecondary.blindSpots],
+        8
+      );
+      const growth = mergeUnique(
+        [consciousDominant.growth, consciousSecondary.growth],
+        8
+      );
+      const environment = mergeUnique(
+        [consciousDominant.environment, consciousSecondary.environment],
+        8
+      );
+      const needs = mergeUnique(
+        [consciousDominant.needs, consciousSecondary.needs],
+        8
+      );
+      const motivators = mergeUnique(
+        [consciousDominant.motivators, consciousSecondary.motivators],
+        8
+      );
+      const managementStyle = mergeUnique(
+        [consciousDominant.managementStyle, consciousSecondary.managementStyle],
+        8
+      );
+      const oppositeCommunication = mergeUnique(
+        [oppositeDominant.communicationTips, oppositeSecondary.communicationTips],
+        8
+      );
+
+      return [
+        {
+          key: "introduction",
+          title: "Introduction",
+          blocks: [
+            {
+              type: "paragraph",
+              text: `Ce rapport décrit la manière dont ${fullName} combine quatre énergies de couleur. Le profil conscient suggère comment ${fullName} tend à se présenter dans les contextes visibles, tandis que le profil moins conscient décrit la dynamique qui apparaît plus facilement dans l’intimité, sous tension ou lorsque l’effort de maîtrise diminue.`
+            },
+            {
+              type: "paragraph",
+              text: `La signature dominante de ${fullName} est ${conscious.archetype.label.toLowerCase()}, soutenue par une tonalité ${consciousDominant.label.toLowerCase()} puis ${consciousSecondary.label.toLowerCase()}. Le déplacement énergétique observé est de ${report.shift.value}%, ce qui indique ${report.shift.label.toLowerCase()}.`
+            }
+          ]
+        },
+        {
+          key: "style",
+          title: "Synthèse — Style Personnel",
+          blocks: [
+            {
+              type: "paragraph",
+              text: `${fullName} projette une présence ${toSentence(consciousDominant.adjectives)} avec une nuance ${toSentence(consciousSecondary.adjectives)}. Sur le plan visible, ${conscious.archetype.publicStyle} Sa persona moins consciente montre une coloration ${toSentence(privateDominant.adjectives)} soutenue par une note ${toSentence(privateSecondary.adjectives)}.`
+            },
+            {
+              type: "paragraph",
+              text: `Dans l’ensemble, ce style combine ${conscious.archetype.summary.toLowerCase()} Cela donne une personnalité capable d’articuler structure et relation, prudence et mouvement, selon le contexte rencontré.`
+            }
+          ]
+        },
+        {
+          key: "relations",
+          title: "Synthèse — Relations avec autrui",
+          blocks: [
+            {
+              type: "paragraph",
+              text: `Dans la relation, ${fullName} recherche prioritairement ${consciousDominant.relationNeed}, puis ${consciousSecondary.relationNeed}. ${conscious.archetype.relations} Lorsque la pression augmente, la dynamique privée indique davantage ${privateProfile.archetype.relations.toLowerCase()}.`
+            }
+          ]
+        },
+        {
+          key: "decision",
+          title: "Synthèse — Prise de Décision",
+          blocks: [
+            {
+              type: "paragraph",
+              text: `${fullName} prend ses décisions en s’appuyant sur ${consciousDominant.decisionNeed}, puis sur ${consciousSecondary.decisionNeed}. ${conscious.archetype.decisions} Dans le registre moins conscient, ${privateProfile.archetype.decisions.toLowerCase()}, ce qui peut légèrement modifier le rythme ou la forme des arbitrages.`
+            }
+          ]
+        },
+        {
+          key: "strengths-weaknesses",
+          title: "Forces et Faiblesses",
+          blocks: [
+            {
+              type: "paragraph",
+              text: `Les points forts suivants ressortent du duo ${consciousDominant.label.toLowerCase()} / ${consciousSecondary.label.toLowerCase()} :`
+            },
+            {
+              type: "list",
+              items: strengths
+            },
+            {
+              type: "paragraph",
+              text: `Les fragilités potentielles à surveiller concernent surtout la manière dont l’intensité, l’exigence ou le rythme sont perçus :`
+            },
+            {
+              type: "list",
+              items: weaknesses
+            }
+          ]
+        },
+        {
+          key: "team-value",
+          title: "Valeur pour l’Équipe",
+          blocks: [
+            {
+              type: "paragraph",
+              text: `${conscious.archetype.team.charAt(0).toUpperCase()}${conscious.archetype.team.slice(1)} Dans une équipe, ${fullName} apporte souvent les contributions suivantes :`
+            },
+            {
+              type: "list",
+              items: teamValue
+            }
+          ]
+        },
+        {
+          key: "communication",
+          title: "Communication efficace",
+          blocks: [
+            {
+              type: "paragraph",
+              text: `Pour communiquer efficacement avec ${fullName}, il est utile de garder en tête que ${conscious.archetype.communication}`
+            },
+            {
+              type: "list",
+              items: communicationTips
+            }
+          ]
+        },
+        {
+          key: "communication-barriers",
+          title: "Freins à la communication efficace",
+          blocks: [
+            {
+              type: "paragraph",
+              text: `La communication se dégrade plus vite lorsque certains irritants apparaissent. Chez ${fullName}, ${conscious.archetype.barriers}`
+            },
+            {
+              type: "list",
+              items: barriers
+            }
+          ]
+        },
+        {
+          key: "blind-spots",
+          title: "Points Ignorés possibles",
+          blocks: [
+            {
+              type: "paragraph",
+              text: `${conscious.archetype.blindSpots.charAt(0).toUpperCase()}${conscious.archetype.blindSpots.slice(1)} Quelques angles morts possibles méritent donc d’être observés avec attention :`
+            },
+            {
+              type: "list",
+              items: blindSpots
+            }
+          ]
+        },
+        {
+          key: "opposite-type",
+          title: "Votre Type Opposé",
+          blocks: [
+            {
+              type: "paragraph",
+              text: `Le type opposé de ${fullName} sur la roue est ${opposite.label}. Ce registre met davantage l’accent sur une énergie ${oppositeDominant.label.toLowerCase()} soutenue par ${oppositeSecondary.label.toLowerCase()}. ${opposite.summary}`
+            }
+          ]
+        },
+        {
+          key: "opposite-communication",
+          title: "Communiquer avec votre Type Opposé",
+          blocks: [
+            {
+              type: "paragraph",
+              text: `Pour dialoguer plus facilement avec ce type opposé, il est utile d’adopter temporairement certains réflexes complémentaires :`
+            },
+            {
+              type: "list",
+              items: oppositeCommunication
+            }
+          ]
+        },
+        {
+          key: "growth",
+          title: "Suggestions pour progresser",
+          blocks: [
+            {
+              type: "paragraph",
+              text: `${conscious.archetype.growth.charAt(0).toUpperCase()}${conscious.archetype.growth.slice(1)} Les pistes suivantes peuvent aider ${fullName} à élargir sa palette comportementale :`
+            },
+            {
+              type: "list",
+              items: growth
+            }
+          ]
+        },
+        {
+          key: "environment",
+          title: "Management — Environnement Idéal de Travail",
+          blocks: [
+            {
+              type: "paragraph",
+              text: `${conscious.archetype.environment.charAt(0).toUpperCase()}${conscious.archetype.environment.slice(1)} L’environnement le plus favorable pour ${fullName} contient généralement les éléments suivants :`
+            },
+            {
+              type: "list",
+              items: environment
+            }
+          ]
+        },
+        {
+          key: "needs",
+          title: "Management — Vos Besoins",
+          blocks: [
+            {
+              type: "paragraph",
+              text: `${conscious.archetype.needs.charAt(0).toUpperCase()}${conscious.archetype.needs.slice(1)} Pour donner le meilleur de lui-même, ${fullName} bénéficie particulièrement de :`
+            },
+            {
+              type: "list",
+              items: needs
+            }
+          ]
+        },
+        {
+          key: "motivation",
+          title: "La Motivation",
+          blocks: [
+            {
+              type: "paragraph",
+              text: `${conscious.archetype.motivation.charAt(0).toUpperCase()}${conscious.archetype.motivation.slice(1)} Les moteurs les plus probables de ${fullName} sont :`
+            },
+            {
+              type: "list",
+              items: motivators
+            }
+          ]
+        },
+        {
+          key: "management-style",
+          title: "Style de Management",
+          blocks: [
+            {
+              type: "paragraph",
+              text: `${conscious.archetype.management.charAt(0).toUpperCase()}${conscious.archetype.management.slice(1)} Lorsqu’il faut piloter les autres, ${fullName} a tendance à :`
+            },
+            {
+              type: "list",
+              items: managementStyle
+            }
+          ]
+        }
+      ];
+    }
+
+    // The report sections are generated from the dominant archetype and its two strongest energies.
+    function buildReport(questionBank, answers, firstName, lastName) {
+      const conscious = resolveBlockScores(questionBank, answers, "conscious");
+      const lessConscious = resolveBlockScores(questionBank, answers, "lessConscious");
+      const shift = resolveShift(conscious.percentages, lessConscious.percentages);
+      const opposite = getOppositeArchetype(conscious.archetype.key);
+      const fullName = `${firstName} ${lastName}`.trim();
+
+      const report = {
+        fullName,
+        generatedAt: new Date().toISOString(),
+        conscious,
+        lessConscious,
+        shift,
+        opposite
+      };
+
+      report.sections = buildSectionList(report, fullName);
+      return report;
+    }
+
+    const QUESTION_BANK = buildQuestionBank();
+
+    const { createApp } = Vue;
+
+    createApp({
+      data() {
+        return {
+          energyLibrary: ENERGY_LIBRARY,
+          wheelBase: WHEEL_BASE,
+          chartEnergies: ENERGY_ORDER.map((key) => ENERGY_LIBRARY[key]),
+          questionBank: QUESTION_BANK,
+          rankOrder: RANK_ORDER,
+          screen: "intro",
+          firstName: "",
+          lastName: "",
+          currentQuestionIndex: 0,
+          answers: {},
+          report: null,
+          printMode: "",
+          uploadedReports: [],
+          importErrors: []
+        };
+      },
+      mounted() {
+        window.addEventListener("afterprint", this.resetPrintMode);
+      },
+      beforeUnmount() {
+        window.removeEventListener("afterprint", this.resetPrintMode);
+      },
+      computed: {
+        totalQuestions() {
+          return this.questionBank.length;
+        },
+        hasUploadedReports() {
+          return this.uploadedReports.length > 0;
+        },
+        canStart() {
+          return this.firstName.length > 0 && this.lastName.length > 0;
+        },
+        currentQuestion() {
+          return this.questionBank[this.currentQuestionIndex];
+        },
+        currentRanks() {
+          return this.answers[this.currentQuestion.id] || [null, null, null, null];
+        },
+        currentBlockTitle() {
+          return this.currentQuestion.block === "conscious"
+            ? "Partie 1 — Votre visage public"
+            : "Partie 2 — Votre dynamique privée";
+        },
+        currentBlockQuestionNumber() {
+          return this.currentQuestion.block === "conscious"
+            ? this.currentQuestionIndex + 1
+            : this.currentQuestionIndex - 17;
+        },
+        answeredQuestionsCount() {
+          return this.questionBank.filter((question) => {
+            const ranks = this.answers[question.id];
+            return Array.isArray(ranks) && ranks.length === 4 && new Set(ranks).size === 4 && ranks.every((rank) => rank !== null);
+          }).length;
+        },
+        progressPercent() {
+          return (this.answeredQuestionsCount / this.totalQuestions) * 100;
+        },
+        isCurrentQuestionComplete() {
+          return new Set(this.currentRanks).size === 4 && this.currentRanks.every((rank) => rank !== null);
+        },
+        isLastQuestion() {
+          return this.currentQuestionIndex === this.totalQuestions - 1;
+        },
+        completionMessage() {
+          const missing = RANK_ORDER.filter((rank) => !this.currentRanks.includes(rank));
+          if (missing.length === 0) {
+            return "Classement complet. Vous pouvez passer à la série suivante.";
+          }
+          return `Rangs restants : ${toSentence(missing.map((rank) => String(rank)))}.`;
+        },
+        fullName() {
+          return `${this.firstName} ${this.lastName}`.trim();
+        },
+        formattedReportDate() {
+          return this.report ? formatDateFr(new Date(this.report.generatedAt)) : formatDateFr(new Date());
+        },
+        consciousMarker() {
+          return this.report ? positionToPoint(this.report.conscious.archetype.position) : { x: 0, y: 0 };
+        },
+        lessConsciousMarker() {
+          return this.report ? positionToPoint(this.report.lessConscious.archetype.position) : { x: 0, y: 0 };
+        },
+        consciousMarkerSlices() {
+          return this.report ? buildCompassSlices(this.consciousMarker, 11, 0.98) : [];
+        },
+        lessConsciousMarkerSlices() {
+          return this.report ? buildCompassSlices(this.lessConsciousMarker, 10, 0.46) : [];
+        },
+        importedConsciousMarkers() {
+          return buildImportedWheelMarkers(this.uploadedReports, "conscious");
+        },
+        importedLessConsciousMarkers() {
+          return buildImportedWheelMarkers(this.uploadedReports, "lessConscious");
+        },
+        uploadedAverageShift() {
+          if (this.uploadedReports.length === 0) {
+            return 0;
+          }
+
+          const totalShift = this.uploadedReports.reduce((sum, report) => sum + report.shift.value, 0);
+          return roundPercent(totalShift / this.uploadedReports.length);
+        },
+        mostCommonConsciousArchetype() {
+          return resolveMostCommonArchetype(this.uploadedReports, "conscious");
+        },
+        mostCommonLessConsciousArchetype() {
+          return resolveMostCommonArchetype(this.uploadedReports, "lessConscious");
+        }
+      },
+      methods: {
+        formatPercent(value, digits = 1) {
+          return new Intl.NumberFormat("fr-FR", {
+            minimumFractionDigits: digits,
+            maximumFractionDigits: digits
+          }).format(value);
+        },
+        formatImportedDate(value) {
+          if (!value) {
+            return "Date non disponible";
+          }
+
+          const date = new Date(value);
+          if (Number.isNaN(date.getTime())) {
+            return "Date non disponible";
+          }
+
+          return formatDateFr(date);
+        },
+        getMarkerBadgeStyle(colorKey) {
+          return {
+            background: this.energyLibrary[colorKey].color,
+            color: markerTextColor(colorKey)
+          };
+        },
+        wheelLabelPathId(prefix, key) {
+          return `wheel-label-${prefix}-${key}`;
+        },
+        startAssessment() {
+          this.screen = "questions";
+          this.currentQuestionIndex = 0;
+        },
+        async handleReportUpload(event) {
+          const files = Array.from(event.target.files || []);
+          if (files.length === 0) {
+            return;
+          }
+
+          const nextReports = new Map(this.uploadedReports.map((report) => [report.id, report]));
+          const nextErrors = [];
+
+          for (const file of files) {
+            try {
+              const text = await file.text();
+              const payload = JSON.parse(text);
+              const normalized = normalizeImportedPayload(payload, file.name);
+              nextReports.set(normalized.id, normalized);
+            } catch (error) {
+              const reason = error instanceof SyntaxError
+                ? "JSON invalide"
+                : error instanceof Error
+                  ? error.message
+                  : "lecture impossible";
+              nextErrors.push(`${file.name} : ${reason}.`);
+            }
+          }
+
+          this.uploadedReports = Array.from(nextReports.values());
+          this.importErrors = nextErrors;
+          event.target.value = "";
+        },
+        clearUploadedReports() {
+          this.uploadedReports = [];
+          this.importErrors = [];
+        },
+        runPrint(mode) {
+          this.printMode = mode;
+          window.scrollTo({ top: 0, behavior: "auto" });
+          this.$nextTick(() => {
+            window.print();
+          });
+        },
+        resetPrintMode() {
+          this.printMode = "";
+        },
+        saveRanks(nextRanks) {
+          this.answers = {
+            ...this.answers,
+            [this.currentQuestion.id]: nextRanks
+          };
+        },
+        assignRank(optionIndex, rank) {
+          const nextRanks = [...this.currentRanks];
+          const previousRank = nextRanks[optionIndex];
+          const existingIndex = nextRanks.findIndex((value, index) => index !== optionIndex && value === rank);
+
+          if (previousRank === rank) {
+            nextRanks[optionIndex] = null;
+          } else {
+            nextRanks[optionIndex] = rank;
+            if (existingIndex !== -1) {
+              nextRanks[existingIndex] = previousRank ?? null;
+            }
+          }
+
+          this.saveRanks(nextRanks);
+        },
+        shiftRank(optionIndex, delta) {
+          const currentRank = this.currentRanks[optionIndex];
+          if (currentRank === null) {
+            this.assignRank(optionIndex, delta >= 0 ? 4 : 1);
+            return;
+          }
+          const nextRank = clamp(currentRank + delta, 1, 4);
+          this.assignRank(optionIndex, nextRank);
+        },
+        isRankTakenByAnother(optionIndex, rank) {
+          return this.currentRanks.some((value, index) => index !== optionIndex && value === rank);
+        },
+        resetCurrentQuestion() {
+          this.saveRanks([null, null, null, null]);
+        },
+        nextQuestion() {
+          if (!this.isCurrentQuestionComplete) {
+            return;
+          }
+
+          if (this.isLastQuestion) {
+            this.report = buildReport(this.questionBank, this.answers, this.firstName, this.lastName);
+            this.screen = "results";
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            return;
+          }
+
+          this.currentQuestionIndex += 1;
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        },
+        getArchetypeBadge(profile) {
+          return `${this.energyLibrary[profile.dominant].emoji}${this.energyLibrary[profile.secondary].emoji} ${profile.archetype.label}`;
+        },
+        restartAssessment() {
+          this.screen = "intro";
+          this.currentQuestionIndex = 0;
+          this.answers = {};
+          this.report = null;
+          this.printMode = "";
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        },
+        printComparison() {
+          if (!this.hasUploadedReports) {
+            return;
+          }
+
+          this.runPrint("comparison");
+        },
+        printReport() {
+          this.runPrint("report");
+        },
+        downloadJson() {
+          const payload = {
+            appName: APP_NAME,
+            generatedAt: this.report.generatedAt,
+            respondent: {
+              firstName: this.firstName,
+              lastName: this.lastName,
+              fullName: this.fullName
+            },
+            scores: {
+              conscious: this.report.conscious,
+              lessConscious: this.report.lessConscious,
+              shift: this.report.shift,
+              opposite: this.report.opposite
+            },
+            sections: this.report.sections,
+            answers: this.questionBank.map((question) => ({
+              id: question.id,
+              block: question.block,
+              options: question.options,
+              ranks: this.answers[question.id]
+            }))
+          };
+
+          const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          const slug = this.fullName
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/(^-|-$)/g, "");
+
+          link.href = url;
+          link.download = `rapport-jungien-${slug || "profil"}.json`;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+        }
+      }
+    }).mount("#app");
+  </script>
+</body>
+</html>
