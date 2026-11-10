@@ -1,0 +1,97 @@
+name: Deploy to Infomaniak
+
+# Uploads the site to https://galan.cloud/jung/ over SFTP when a release is
+# published. It can also be run by hand from the Actions tab.
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+# Never run two deploys at the same time.
+concurrency:
+  group: deploy-infomaniak
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://galan.cloud/jung/
+    env:
+      SFTP_HOST: ${{ secrets.SFTP_HOST }}
+      SFTP_PORT: ${{ secrets.SFTP_PORT || '22' }}
+      SFTP_USER: ${{ secrets.SFTP_USER }}
+      SFTP_REMOTE_PATH: ${{ secrets.SFTP_REMOTE_PATH }}
+      SFTP_PRIVATE_KEY: ${{ secrets.SFTP_PRIVATE_KEY }}
+      SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+      SFTP_KNOWN_HOSTS: ${{ secrets.SFTP_KNOWN_HOSTS }}
+    steps:
+      - name: Check out the released code
+        uses: actions/checkout@v4
+
+      - name: Check the secrets are set
+        run: |
+          missing=0
+          for v in SFTP_HOST SFTP_USER SFTP_REMOTE_PATH; do
+            if [ -z "${!v}" ]; then echo "::error::Secret $v is not set"; missing=1; fi
+          done
+          if [ -z "$SFTP_PRIVATE_KEY" ] && [ -z "$SFTP_PASSWORD" ]; then
+            echo "::error::Set either SFTP_PRIVATE_KEY or SFTP_PASSWORD"; missing=1
+          fi
+          exit $missing
+
+      - name: Set up SSH
+        run: |
+          install -d -m 700 ~/.ssh
+          if [ -n "$SFTP_KNOWN_HOSTS" ]; then
+            printf '%s\n' "$SFTP_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          else
+            echo "::warning::SFTP_KNOWN_HOSTS is not set, trusting the host key seen now"
+            ssh-keyscan -p "$SFTP_PORT" -H "$SFTP_HOST" > ~/.ssh/known_hosts
+          fi
+          chmod 600 ~/.ssh/known_hosts
+          if [ -n "$SFTP_PRIVATE_KEY" ]; then
+            printf '%s\n' "$SFTP_PRIVATE_KEY" > ~/.ssh/deploy_key
+            chmod 600 ~/.ssh/deploy_key
+          else
+            sudo apt-get update -qq && sudo apt-get install -y -qq sshpass
+          fi
+
+      - name: Upload over SFTP
+        run: |
+          # Files that make up the site. Add new ones here.
+          files="index.html"
+          {
+            echo "cd \"$SFTP_REMOTE_PATH\""
+            for f in $files; do
+              # Upload to a temporary name, then swap it in, so visitors never
+              # get a half-written page.
+              echo "put \"$f\" \"$f.uploading\""
+              echo "-rm \"$f\""
+              echo "rename \"$f.uploading\" \"$f\""
+            done
+          } > batch.txt
+          cat batch.txt
+
+          opts=(-b batch.txt -P "$SFTP_PORT" -o StrictHostKeyChecking=yes -o BatchMode=no)
+          if [ -n "$SFTP_PRIVATE_KEY" ]; then
+            sftp -i ~/.ssh/deploy_key -o IdentitiesOnly=yes "${opts[@]}" "$SFTP_USER@$SFTP_HOST"
+          else
+            SSHPASS="$SFTP_PASSWORD" sshpass -e sftp "${opts[@]}" \
+              -o PreferredAuthentications=password -o PubkeyAuthentication=no \
+              "$SFTP_USER@$SFTP_HOST"
+          fi
+
+      - name: Check the live site answers
+        run: |
+          code=$(curl -s -o /dev/null -w '%{http_code}' https://galan.cloud/jung/)
+          echo "https://galan.cloud/jung/ returned HTTP $code"
+          [ "$code" = "200" ]
+
+      - name: Clean up
+        if: always()
+        run: rm -f ~/.ssh/deploy_key batch.txt
